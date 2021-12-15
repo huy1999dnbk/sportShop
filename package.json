@@ -4,6 +4,9 @@
   "description": "Sport shop",
   "main": "server.js",
   "type": "module",
+  "engines": {
+    "node": "15.14.0"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
