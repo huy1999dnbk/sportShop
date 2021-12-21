@@ -11,7 +11,7 @@ const google_client_email = process.env.GOOGLE_CLIENT_EMAIL
 
 const credentials = {
     client_email: google_client_email.toString(),
-    private_key:process.env.NODE_ENV === 'production' ? JSON.parse(process.env.GOOGLE_PRIVATE_KEY) : process.env.GOOGLE_PRIVATE_KEY,
+    private_key:process.env.GOOGLE_PRIVATE_KEY,
   };
 
 
