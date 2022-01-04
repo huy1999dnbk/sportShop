@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './message.module.css'
 import MessageBotCard from '../MessageBotCard/MessageBotCard'
 import QuickReply from '../QuickReply/QuickReply'
+import { Link } from 'react-router-dom'
 const Message = ({ target, message, loading, handleClickQuickReply }) => {
     return (
         <div className={`${styles.message_container} ${target === 'bot' ? styles.message_target_bot : styles.message_target_user}`}>
@@ -38,7 +39,7 @@ const Message = ({ target, message, loading, handleClickQuickReply }) => {
                         <i className="fas fa-robot"></i>
                     </div>
                     <div className={styles.message_content}>
-                        <p>{message.text.stringValue} <a style={{ color: 'ActiveCaption' }} href={`/product/${message.idProduct.stringValue}`} target="_blank" rel="noopener noreferrer">this</a></p>
+                                <p>{message.text.stringValue} <Link style={{ color: 'ActiveCaption' }} to={`/product/${message.idProduct.stringValue}`} target="_blank" >this</Link> </p>
                     </div>
                 </>
             )
