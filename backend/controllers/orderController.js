@@ -1,5 +1,6 @@
-import asyncHandler from "express-async-handler";
-import Order from '../model/orderModel.js'
+const asyncHandler = require('express-async-handler')
+
+const Order = require('../model/orderModel') 
 
 const addOrderItems = asyncHandler(async(req,res) => {
   const {
@@ -92,4 +93,6 @@ const updateOrderToDelivered = asyncHandler(async(req,res) => {
   }
  })
 
-export {addOrderItems,getOrderById,updateOrderToPaid,getMyOrders,getOrders,updateOrderToDelivered}
+module.exports = {
+  addOrderItems, getOrderById, updateOrderToPaid, getMyOrders, getOrders, updateOrderToDelivered
+}

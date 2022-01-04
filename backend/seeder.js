@@ -1,11 +1,11 @@
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
-import users from './data/users.js'
-import products from './data/products.js'
-import User from './model/userModel.js'
-import Product from './model/productModel.js'
-import Order from './model/orderModel.js'
-import connectDB from './config/db.js'
+
+const dotenv = require('dotenv')
+const users = require('./data/users')
+const products = require('./data/products')
+const User = require('./model/userModel')
+const Product = require('./model/productModel')
+const Order = require('./model/orderModel')
+const connectDB = require('./config/db')
 
 dotenv.config()
 

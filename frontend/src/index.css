@@ -1,5 +1,6 @@
 main {
   min-height: 80vh;
+  background-color: #F0F2F5;
 }
 
 .carousel-item-next,.carousel-item-prev,.carousel-item-active {
@@ -32,4 +33,37 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.container-chatbot-mini{
+  position: fixed;
+  right: 30px;
+  bottom: 10px;
+  z-index: 20;
+  box-shadow: 0px 10px 14px -7px #276873;
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:8px;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	font-weight:bold;
+	padding:10px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+
+.container-chatbot-mini:hover{
+  background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+
+.container-chatbot{
+  position: fixed;
+  right: 40px;
+  bottom: 30px;
+  width: 350px;
+  height: 450px;
+  z-index: 22;
 }

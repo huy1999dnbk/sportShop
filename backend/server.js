@@ -1,14 +1,15 @@
-import path from 'path'
-import express from 'express'
-import connectDB from './config/db.js'
-import dotenv from 'dotenv'
-import morgan from 'morgan'
-import productRoutes from './routes/productRoutes.js'
-import userRoutes from './routes/userRoutes.js'
-import orderRoutes from './routes/orderRoutes.js'
-import uploadRoutes from './routes/uploadRoutes.js'
-import chatbotRoutes from './routes/chatbotRoutes.js'
-import {notFound,errorHandler} from './middleware/errorMiddleware.js'
+const path = require('path')
+const express = require('express')
+const connectDB = require('./config/db')
+const dotenv = require('dotenv')
+const morgan = require('morgan')
+// const { router: productRoutes } = require('./routes/productRoutes')
+// const { router: userRoutes } = require('./routes/userRoutes')
+// const { router: orderRoutes } = require('./routes/orderRoutes')
+// const { router: uploadRoutes } = require('./routes/uploadRoutes')
+// const { router: chatbotRoutes } = require('./routes/chatbotRoutes')
+// const { router: fulFillMentRoutes } = require('./routes/fulfillmentRoutes')
+const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 const app = express()
 
 if(process.env.NODE_ENV === 'development'){
@@ -23,18 +24,18 @@ connectDB()
 
 
 
-app.use('/api/products',productRoutes)
-app.use('/api/users',userRoutes)
-app.use('/api/orders',orderRoutes)
-app.use('/api/upload',uploadRoutes)
-app.use('/api/chatbot',chatbotRoutes)
+app.use('/api/products', require('./routes/productRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
+app.use('/api/orders', require('./routes/orderRoutes'))
+app.use('/api/upload', require('./routes/uploadRoutes'))
+app.use('/api/chatbot', require('./routes/chatbotRoutes'))
+app.use('/', require('./routes/fulfillmentRoutes'))
 app.get('/api/config/paypal',(req,res) => res.send(process.env.PAYPAL_CLIENT_ID))
 
-const __dirname = path.resolve()
-app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
+app.use('/uploads', express.static(path.join(path.resolve(), '/uploads')))
 
 if(process.env.NODE_ENV === 'production'){
-  app.use(express.static(path.join(__dirname,'/frontend/build')))
+  app.use(express.static(path.join(path.resolve(), '/frontend/build')))
 
   app.get('*',(req,res) => res.sendFile(path.resolve(__dirname,'frontend','build','index.html')))
 } else {

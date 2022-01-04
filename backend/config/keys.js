@@ -1,2 +1,3 @@
 
-export const dialogFlowSessionLanguageCode = 'en-US'
+const dialogFlowSessionLanguageCode = 'en-US'
+module.exports = dialogFlowSessionLanguageCode

@@ -9,12 +9,14 @@ import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
 import { Link } from 'react-router-dom'
+import Chatbot from '../components/Chatbot/Chatbot'
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
   const pageNumber = match.params.pageNumber || 1
   const dispatch = useDispatch()
   const listProduct = useSelector(state => state.productList)
   const { loading, error, products, pages, page } = listProduct
+
 
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber))
@@ -25,7 +27,7 @@ const HomeScreen = ({ match }) => {
       <Meta />
       {!keyword ? <ProductCarousel /> : (
         <Link to='/' className='btn btn-light'>
-        Go Back
+          Go Back
         </Link>
       )}
       <h1>Sản phẩm mới nhất</h1>
@@ -39,6 +41,8 @@ const HomeScreen = ({ match }) => {
         </Row>
         <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''} />
       </>)}
+
+
     </>
   )
 }

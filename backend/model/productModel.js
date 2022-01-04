@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose') 
 
 const reviewSchema = mongoose.Schema({
   name:{
@@ -16,7 +16,8 @@ const reviewSchema = mongoose.Schema({
     ref:'User'
   },
 },{
-  timestamps:true
+  timestamps: true,
+
 })
 
 const productSchema = mongoose.Schema({
@@ -68,10 +69,21 @@ const productSchema = mongoose.Schema({
     required:true,
     default:0
   },
+  countMention: {
+    type: Number,
+    required: true,
+    default: 1
+  }
 },{
-  timestamps: true
+  timestamps: true,
+
+})
+
+productSchema.virtual('trendProducts', {
+  ref: 'trendProduct',
+  localField: '_id',
+  foreignField: 'idProduct'
 })
 
 const Product = mongoose.model('Product',productSchema)
-
-export default Product
+module.exports = Product

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Sport shop",
   "main": "server.js",
-  "type": "module",
   "engines": {
     "node": "15.14.0"
   },
@@ -29,7 +28,9 @@
   "dependencies": {
     "@google-cloud/dialogflow": "^4.6.0",
     "@google-cloud/storage": "^5.16.1",
+    "actions-on-google": "^2.14.0",
     "bcryptjs": "^2.4.3",
+    "dialogflow-fulfillment": "^0.6.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.2.0",

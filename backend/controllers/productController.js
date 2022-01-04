@@ -1,6 +1,6 @@
-import asyncHandler from 'express-async-handler'
-import Product from '../model/productModel.js'
-
+const asyncHandler = require('express-async-handler')
+const Product = require('../model/productModel')
+const trendProduct = require('../model/trendingProductModel')
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 2
   const page = Number(req.query.pageNumber) || 1
@@ -113,15 +113,21 @@ const createProductReview = asyncHandler(async (req, res) => {
 const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({rating:-1}).limit(3)
   res.json(products)
-  
 })
 
-export {
+const getTrendProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ countMention: -1 }).limit(4)
+  res.json(products)
+})
+
+module.exports = {
   getProducts,
   getProductById,
   deleteProduct,
   updateProduct,
   createProduct,
   createProductReview,
-  getTopProducts
+  getTopProducts,
+  getTrendProducts
 }
+
