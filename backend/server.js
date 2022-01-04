@@ -3,12 +3,7 @@ const express = require('express')
 const connectDB = require('./config/db')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
-// const { router: productRoutes } = require('./routes/productRoutes')
-// const { router: userRoutes } = require('./routes/userRoutes')
-// const { router: orderRoutes } = require('./routes/orderRoutes')
-// const { router: uploadRoutes } = require('./routes/uploadRoutes')
-// const { router: chatbotRoutes } = require('./routes/chatbotRoutes')
-// const { router: fulFillMentRoutes } = require('./routes/fulfillmentRoutes')
+
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 const app = express()
 
@@ -37,7 +32,7 @@ app.use('/uploads', express.static(path.join(path.resolve(), '/uploads')))
 if(process.env.NODE_ENV === 'production'){
   app.use(express.static(path.join(path.resolve(), '/frontend/build')))
 
-  app.get('*',(req,res) => res.sendFile(path.resolve(__dirname,'frontend','build','index.html')))
+  app.get('*', (req, res) => res.sendFile(path.resolve(path.resolve(), 'frontend', 'build', 'index.html')))
 } else {
   app.get('/',(req,res) => {
     res.send('API IS RUNNING......')
