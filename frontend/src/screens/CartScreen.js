@@ -1,16 +1,35 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, ListGroup, Image, Form, Button, Card, FormControl } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Form, Button, Card, FormControl, ButtonToolbar } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../action/cartAction'
+import ButtonComponent from '../components/Button/ButtonComponent'
+import Modal from '../components/Modal/Modal'
+import styled from 'styled-components'
+
+const CardCheckOut = styled.div`
+  padding:16px;
+  -webkit-box-shadow: 5px 5px 7px 6px rgba(0,0,0,0.22); 
+  ox-shadow: 5px 5px 7px 6px rgba(0,0,0,0.22);
+  border:0;
+  border-radius:10px
+`
+
+const TotalPrice = styled.p`
+  font-size:28px;
+  color:black
+`
+
 const CartScreen = ({ match, location, history }) => {
 
   const dispatch = useDispatch()
   const productId = match.params.id
-
+  const [showModal, setShowModal] = useState(false)
+  const [productDelete, setProductDelete] = useState('')
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
-
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
   const cart = useSelector(state => state.cart)
 
   const { cartItems } = cart
@@ -21,74 +40,100 @@ const CartScreen = ({ match, location, history }) => {
     }
   }, [productId, qty])
 
-  const removeCartFromHandler = (id) => {
-    dispatch(removeFromCart(id))
-  }
 
   const checkoutHandler = () => {
     history.push('/login?redirect=shipping')
   }
 
+  const closeModal = () => {
+    setShowModal(false)
+    setProductDelete('')
+  }
+
+  const getProductId = id => id
+
+  const confirmModal = (id) => {
+    dispatch(removeFromCart(productDelete))
+    setShowModal(false)
+    setProductDelete('')
+  }
   return (
-    <Row>
-      <Col md={8}>
-        <h1>Shopping cart</h1>
-        {
-          cartItems.length === 0 ? (
-            <Message>Your cart is empty <Link to='/'>Go Back</Link></Message>
-          ) : (
-            <ListGroup variant='flush' >
-              {
-                cartItems.map((item, index) => (
-                  <ListGroup.Item key={index}>
-                    <Row>
-                      <Col md={2}>
+    <>
+      {showModal && <Modal onCancel={closeModal} title='Are you sure' content='Do you want to delete this product?' onConfirm={confirmModal} />}
+      <Row style={{ paddingTop: '16px' }}>
+        <Col md={8} >
+          <h2 style={{ textAlign: 'center', marginBottom: '32px' }}>Your cart</h2>
+          {
+            cartItems.length === 0 ? (
+              <Message>Your cart is empty <Link to='/'>Go Back</Link></Message>
+            ) : (
+              <>
+                {
+                  cartItems.map((item, index) => (
+                    <Row key={index} style={{ marginBottom: '24px' }}>
+                      <Col md={3}>
                         <Image src={item.image} alt={item.name} fluid rounded />
                       </Col>
-                      <Col md={3}>
-                        <Link to={`/product/${item.product}`}>{item.name}</Link>
-                      </Col>
-                      <Col md={2}>
-                        ${item.price}
-                      </Col>
-                      <Col md={2}>
-                        <FormControl as='select' value={item.qty} onChange={e => dispatch(addToCart(item.product, Number(e.target.value)))}>
-                          {[...Array(item.countInStock).keys()].map(x => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </FormControl>
+                      <Col md={6}>
+                        <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
+                          Product: <span style={{ fontWeight: 'normal' }}>{item.name}</span>
+                        </p>
+                        <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
+                          Category: <span style={{ fontWeight: 'normal' }}>{item.category}</span>
+                        </p>
+                        <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
+                          Total: <span style={{ fontWeight: 'normal' }}>${(item.price * item.qty).toFixed(2)}</span>
+                        </p>
                       </Col>
                       <Col md={3}>
-                        <Button type='button' variant='light' onClick={() => removeCartFromHandler(item.product)}>
-                          <i className='fas fa-trash'></i>
-                        </Button>
+                        <Row>
+                          <Col md={12}>
+                            <FormControl style={{ fontSize: '18px' }} as='select' value={item.qty} onChange={e => dispatch(addToCart(item.product, Number(e.target.value)))}>
+                              {[...Array(item.countInStock).keys()].map(x => (
+                                <option key={x + 1} value={x + 1}>
+                                  {x + 1}
+                                </option>
+                              ))}
+                            </FormControl>
+                          </Col>
+                          <Col md={12} style={{ marginTop: '1rem' }}>
+                            <Row style={{ justifyContent: 'center' }}>
+                              <ButtonComponent onClick={() => {
+                                setProductDelete(item.product)
+                                setShowModal(true)
+                              }}>
+                                <i className='fas fa-trash'></i>
+                              </ButtonComponent>
+                            </Row>
+                          </Col>
+                        </Row>
                       </Col>
                     </Row>
-                  </ListGroup.Item>
-                ))
-              }
+                  ))
+                }
+              </>
+            )
+          }
+        </Col>
+        <Col md={4}>
+          <CardCheckOut style={{ marginTop: '24px' }}>
+            <ListGroup variant='flush'>
+              <ListGroup.Item>
+                <h2>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items </h2>
+                <TotalPrice >
+                  ${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
+                </TotalPrice>
+              </ListGroup.Item>
+              <ListGroup.Item style={{margin:'0 auto'}}>
+                <ButtonComponent bgDark disabled={cartItems.length === 0} onClick={checkoutHandler}>
+                  Proceed to CheckOut
+                </ButtonComponent>
+              </ListGroup.Item>
             </ListGroup>
-          )
-        }
-      </Col>
-      <Col md={4}>
-        <Card>
-          <ListGroup variant='flush'>
-            <ListGroup.Item>
-              <h2>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items </h2>
-              ${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={checkoutHandler}>
-                Proceed to CheckOut
-              </Button>
-            </ListGroup.Item>
-          </ListGroup>
-        </Card>
-      </Col>
-    </Row>
+          </CardCheckOut>
+        </Col>
+      </Row>
+    </>
   )
 }
 

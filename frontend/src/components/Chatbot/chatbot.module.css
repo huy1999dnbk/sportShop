@@ -33,7 +33,7 @@
     height: 10%;
 }
 
-.chatbot_input input {
+.chatbot_input textarea {
     display: inline-block;
     width: 100%;
     height: 90%;
@@ -42,6 +42,6 @@
     background: #ccc;
     padding: 5px 10px;
 }
-.chatbot_input input:focus {
+.chatbot_input textarea:focus {
     outline: none;
 }

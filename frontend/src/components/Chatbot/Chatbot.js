@@ -24,7 +24,7 @@ const Chatbot = ({ closeMessage }) => {
     const handleChange = (e) => {
         setMess(e.target.value)
     }
-
+    
     const handleEnter = (e) => {
         if (e.key === 'Enter' || e.keyCode === 13) {
             if (mess === '') {
@@ -122,7 +122,7 @@ const Chatbot = ({ closeMessage }) => {
                 </div>
             </div>
             <div className={styles.chatbot_input}>
-                <input value={mess} onKeyPress={handleEnter} onChange={handleChange} placeholder='type message here' />
+                <textarea  value={mess} onKeyPress={handleEnter} onChange={handleChange} placeholder='type message here' />
             </div>
         </div >
     )

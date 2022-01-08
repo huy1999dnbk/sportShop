@@ -1,5 +1,17 @@
 import React,{useState} from 'react'
 import {Form,Button} from 'react-bootstrap'
+import styled from 'styled-components'
+import InputComponent from './Input/InputComponent'
+
+const FormContainer = styled.form`
+    display:flex;
+    flex-direction:row;
+    max-width:650px;
+    @media (max-width:502px){
+        min-width:200px;
+    }
+`
+
 const SearchBox = ({history}) => {
     const [keyword,setKeyword] = useState('')
 
@@ -12,11 +24,11 @@ const SearchBox = ({history}) => {
         }
     }
     return (
-        <Form style={{ display: 'flex' }} onSubmit={submitHandler} inline="true">
-            <Form.Control type='text' name='q' onChange={e => setKeyword(e.target.value)} placeholder='Search Product' className='mr-sm-2 ml-sm-3'>
-            </Form.Control>
+        <FormContainer onSubmit={submitHandler} inline="true">
+            <InputComponent type='text' name='q' onChange={e => setKeyword(e.target.value)} placeholder='Search Product' className='mr-sm-2 ml-sm-3'>
+            </InputComponent>
             <Button type='submit' variant='outline-success' className='p-1'>Search</Button>
-        </Form>
+        </FormContainer>
     )
 }
 

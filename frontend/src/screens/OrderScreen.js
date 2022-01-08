@@ -5,9 +5,9 @@ import {PayPalButton} from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Loader from '../components/Loader/Loader'
 import { getOrderDetails, payOrder,deliverOrder } from '../action/orderAction'
-import { ORDER_PAY_RESET,ORDER_DELIVER_RESET } from '../constants/orderConstant'
+import { ORDER_PAY_RESET,ORDER_DELIVER_RESET, ORDER_DETAILS_RESET } from '../constants/orderConstant'
 const OrderScreen = ({ match,history }) => {
   const orderId = match.params.id
   const [sdkReady,setSdkReady] = useState(false)
@@ -62,8 +62,8 @@ const OrderScreen = ({ match,history }) => {
         setSdkReady(true)
       }
     }
-   
-  }, [dispatch,orderId,successPay,successDeliver,order])
+
+  }, [dispatch,orderId,successPay,successDeliver,order,userInfo])
  
   const successPaymentHandler = (paymentResult) => {
  

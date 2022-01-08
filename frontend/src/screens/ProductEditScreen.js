@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Form, Button } from "react-bootstrap"
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Loader from '../components/Loader/Loader'
 import FormContainer from '../components/FormContainer'
 import { listProductDetail, updateProduct } from '../action/productAction'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'

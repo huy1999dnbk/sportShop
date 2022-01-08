@@ -1,0 +1,23 @@
+h5{
+    color:white
+}
+
+.connect i {
+    font-size: 2rem;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.contact i{
+    margin: 0 12px 0 0;
+}
+
+.info a,.contact a{
+    color: white;
+}
+
+.info a:hover,.contact a:hover{
+    text-decoration: underline;
+    color: white;
+}
+

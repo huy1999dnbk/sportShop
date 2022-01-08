@@ -3,7 +3,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Loader from '../components/Loader/Loader'
 import { listUsers } from '../action/userAction'
 import { deleteUser } from '../action/userAction'
 const UserListScreen = ({ history }) => {

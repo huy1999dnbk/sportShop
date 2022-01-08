@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Loader from '../components/Loader'
 import { login } from '../action/userAction'
 import FormContainer from '../components/FormContainer'
+import Loader from '../components/Loader/Loader'
 const LoginScreen = ({ location,history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

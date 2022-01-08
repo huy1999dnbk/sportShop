@@ -1,6 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+body{
+  font-family: 'DM Sans', sans-serif !important;
+  background-color: white;
+  font-weight: 500;
+}
+
 main {
   min-height: 80vh;
-  background-color: #F0F2F5;
+  background: white;
+}
+
+.container-page{
+  padding: 0 2rem;
 }
 
 .carousel-item-next,.carousel-item-prev,.carousel-item-active {
@@ -66,4 +78,14 @@ main {
   width: 350px;
   height: 450px;
   z-index: 22;
+}
+
+.navbar-brand{
+  font-size: 2rem !important;
+}
+
+.navbar-light .navbar-nav .nav-link{
+  color:'black';
+  font-size: 18px;
+  font-weight: bold;
 }

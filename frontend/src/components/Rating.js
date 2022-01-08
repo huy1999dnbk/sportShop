@@ -19,7 +19,7 @@ const Rating = ({ value, text, color }) => {
       <span >
         <i style={{ color }} className={value >= 5 ? 'fas fa-star' : value >= 4.5 ? 'fas fa-star-half-alt' : 'far fa-star'}></i>
       </span>
-      <span style={{marginLeft:'10px'}}>{text && text}</span>
+      <span style={{marginLeft:'10px',fontSize:'20px'}}>{text && text}</span>
     </div>
   )
 }

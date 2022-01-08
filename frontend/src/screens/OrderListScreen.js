@@ -3,8 +3,9 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Loader from '../components/Loader/Loader'
 import {listOrders} from '../action/orderAction'
+import { ORDER_DETAILS_RESET } from '../constants/orderConstant'
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch()
 
@@ -17,6 +18,7 @@ const OrderListScreen = ({ history }) => {
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
+      dispatch({type:ORDER_DETAILS_RESET})
       dispatch(listOrders())
     } else {
       history.push('/login')
@@ -42,7 +44,7 @@ const OrderListScreen = ({ history }) => {
           </thead>
           <tbody>
             {orders.map(order => (
-              <tr key={order._id}>
+              <tr key={order._id} style={{background:'white'}}>
                 <td>{order._id}</td>
                 <td>{order.user && order.user.name}</td>
                 <td>{order.createdAt.substring(0,10)}</td>

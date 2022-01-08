@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Carousel, Image } from 'react-bootstrap'
-import Loader from './Loader'
+import Loader from './Loader/Loader'
 import Message from './Message'
 import { listTopProducts } from '../action/productAction'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,7 +20,7 @@ const ProductCarousel = () => {
     ) : error ? (
         <Message variant='danger'>{error}</Message>
     ) : (
-        <Carousel pause='hover' className='bg-dark' style={{position:'relative',marginTop:'20px'}}>
+                <Carousel fade className='bg-dark' style={{ position: 'relative', marginTop: '20px',marginBottom:'20px' }}>
             {products.map(product => (
                 <Carousel.Item key={product._id}>
                     <Link to={`/product/${product._id}`}>
