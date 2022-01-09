@@ -28,9 +28,6 @@ export const listProductDetail = (id) => async (dispatch) => {
 
     const { data } = await axios.get(`/api/products/${id}`)
 
-    dispatch({
-      type:PRODUCT_DETAIL_RESET
-    })
 
     dispatch({
       type: PRODUCT_DETAIL_SUCCESS,

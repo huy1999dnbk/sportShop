@@ -10,7 +10,7 @@ import InputComponent from '../components/Input/InputComponent'
 import ButtonComponent from '../components/Button/ButtonComponent'
 import styled from 'styled-components'
 import { USER_DETAIL_RESET, USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
-
+import LoaderAction from '../components/Loader/LoaderAction'
 const LabelInput = styled.label`
   color:black;
   display:block
@@ -44,7 +44,7 @@ const ProfileScreen = ({ location, history }) => {
   const { userInfo } = userLogin
 
   const userUpdateProfile = useSelector(state => state.userUpdateProfile)
-  const { success, user: userUpdated } = userUpdateProfile
+  const { loading: loadingUpdate, success, user: userUpdated } = userUpdateProfile
 
   const orderListMy = useSelector(state => state.orderListMy)
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
@@ -62,7 +62,7 @@ const ProfileScreen = ({ location, history }) => {
         setEmail(user.email)
       }
     }
-  }, [dispatch, history, userInfo, user, orders,success])
+  }, [dispatch, history, userInfo, user, orders])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -123,14 +123,11 @@ const ProfileScreen = ({ location, history }) => {
                 </Col>
               </Row>
               <Row style={{justifyContent:'center',paddingTop:'32px'}}>
-              
                   <ButtonComponent type='submit' variant='primary'>Update</ButtonComponent>
-             
               </Row>
               {message && <Message variant='danger'>{message}</Message>}
               {error && <Message variant='danger'>{error}</Message>}
-              {success && <Message variant='success'>Profile updated</Message>}
-              {loading && <Loader />}
+              {loading && <LoaderAction />}
             </Form>
 
           </Wrapper>

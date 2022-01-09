@@ -19,6 +19,8 @@ import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import Chatbot from './components/Chatbot/Chatbot'
+import DashboardAdmin from './screens/DashboardAdmin/DashboardAdmin'
+import AdminRoute from './routes/AdminRoute/AdminRoute'
 function App() {
   const [openMess, setOpenMess] = useState(false)
 
@@ -45,12 +47,13 @@ function App() {
             <Route path='/profile' component={ProfileScreen} />
             <Route path='/product/:id' component={ProductScreen} />
             <Route path='/cart/:id?' component={CartScreen} />
-            <Route path='/admin/userlist' component={UserListScreen} />
-            <Route path='/admin/user/:id/edit' component={UserEditScreen} />
-            <Route path='/admin/productlist' component={ProductListScreen} exact />
-            <Route path='/admin/productlist/:pageNumber' component={ProductListScreen} exact />
-            <Route path='/admin/product/:id/edit' component={ProductEditScreen} />
-            <Route path='/admin/orderlist' component={OrderListScreen} />
+            <AdminRoute path='/admin/userlist' Component={UserListScreen} />
+            <AdminRoute path='/admin/userlist' Component={UserListScreen} />
+            <AdminRoute path='/admin/user/:id/edit' Component={UserEditScreen} />
+            <AdminRoute path='/admin/productlist' Component={ProductListScreen} exact />
+            <AdminRoute path='/admin/productlist/:pageNumber' Component={ProductListScreen} exact />
+            <AdminRoute path='/admin/product/:id/edit' Component={ProductEditScreen} />
+            <AdminRoute path='/admin/orderlist' Component={OrderListScreen} />
             <Route path='/search/:keyword' component={HomeScreen} exact />
             <Route path='/page/:pageNumber' component={HomeScreen} exact />
             <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact />

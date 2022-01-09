@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { Route,Link } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { logout } from '../action/userAction'
@@ -23,9 +23,7 @@ const TotalItem = styled.span`
 `
 
 const Header = () => {
-
   const dispatch = useDispatch()
-
   const userLogin = useSelector(state => state.userLogin)
   const cart = useSelector(state => state.cart)
 
@@ -38,7 +36,7 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar style={{ background: 'white', padding: '0px 24px' }} expand="md" collapseOnSelect>
+      <Navbar style={{ background: 'white', padding: '0px 72px' }} expand="md" collapseOnSelect>
         <LinkContainer to='/'>
           <Navbar.Brand >
             <Image style={{ width: '100px', height: '100px' }} src="/images/logo.png" alt='logo-website' />
@@ -75,24 +73,9 @@ const Header = () => {
               )
             }
             {userInfo && userInfo.isAdmin && (
-              <NavDropdown title='Admin' id='adminmenu'>
-                <LinkContainer to='/admin/userlist'>
-                  <NavDropdown.Item>
-                    User
-                  </NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to='/admin/productlist'>
-                  <NavDropdown.Item>
-                    Products
-                  </NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to='/admin/orderlist'>
-                  <NavDropdown.Item>
-                    Orders
-                  </NavDropdown.Item>
-                </LinkContainer>
-
-              </NavDropdown>
+              <LinkContainer to='/admin/userlist'>
+                <Nav.Link >Dashboard</Nav.Link>
+              </LinkContainer>
             )}
           </Nav>
         </Navbar.Collapse>
