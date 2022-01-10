@@ -17,10 +17,10 @@ const AdminRoute = ({ Component, ...restRoute }) => {
   return <Route {...restRoute} render={(propsRoute => (
     <WrappepContainer>
       <Row>
-        <Col md={3}>
+        <Col md={2}>
           <DashboardAdmin />
         </Col>
-        <Col md={9}>
+        <Col md={10}>
           <DashBoard>
             <Component {...propsRoute} />
           </DashBoard>

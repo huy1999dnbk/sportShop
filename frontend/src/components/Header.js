@@ -22,6 +22,11 @@ const TotalItem = styled.span`
   line-height:16px;
 `
 
+const HeaderContainer = styled.header`
+  -webkit-box-shadow: 0px 19px 21px -7px #000000; 
+  box-shadow: 0px 19px 21px -7px #000000;
+`
+
 const Header = () => {
   const dispatch = useDispatch()
   const userLogin = useSelector(state => state.userLogin)

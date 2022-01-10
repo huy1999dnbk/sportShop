@@ -2,6 +2,7 @@ import { USER_DETAIL_FAIL, USER_DETAIL_REQUEST, USER_DETAIL_SUCCESS, USER_LOGIN_
 import { ORDER_DETAILS_RESET, ORDER_LIST_MY_RESET } from "../constants/orderConstant"
 import { CART_RESET } from '../constants/cartConstant'
 import axios from 'axios'
+import { toast } from 'react-toastify';
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -24,9 +25,11 @@ export const login = (email, password) => async (dispatch) => {
       type: USER_LOGIN_SUCCESS,
       payload: data
     })
+    toast.success("Login success");
 
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
+    toast.error("Login fail, try again!!");
     dispatch({
       type: USER_LOGIN_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message
@@ -156,12 +159,14 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_LOGIN_SUCCESS,
       payload: data
     })
+    toast.success("Update profile success!");
     dispatch({
       type:USER_UPDATE_PROFILE_RESET
     })
     dispatch(getUserDetails('profile'))
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
+    toast.error("Update profile fail, try again!!");
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message

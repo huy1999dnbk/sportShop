@@ -36,13 +36,19 @@ const DashboardAdmin = () => {
     <Menu>
       <OrderList>
         <ListItem className={`${pathname.startsWith('/admin/user') && styles.active}`}>
-          <Link style={{ color: pathname.startsWith('/admin/user') ? 'white' : 'black' }} className={styles.link} to='/admin/userlist'>User</Link>
+          <Link style={{ color: pathname.startsWith('/admin/user') ? 'white' : 'black' }} className={styles.link} to='/admin/userlist'>
+          <i className="mr-2 fas fa-user-friends"></i>User
+            </Link>
         </ListItem>
         <ListItem className={`${pathname.startsWith('/admin/product') && styles.active}`}>
-          <Link style={{ color: pathname.startsWith('/admin/product') ? 'white' : 'black' }} className={styles.link} to='/admin/productlist'>Product</Link>
+          <Link style={{ color: pathname.startsWith('/admin/product') ? 'white' : 'black' }} className={styles.link} to='/admin/productlist'>
+          <i className="mr-2 fas fa-industry"></i>Product
+            </Link>
         </ListItem>
         <ListItem className={`${pathname.startsWith('/admin/orderlist') && styles.active}`}>
-          <Link style={{ color: pathname.startsWith('/admin/orderlist') ? 'white' : 'black' }} className={styles.link} to='/admin/orderlist'>Orders</Link>
+          <Link style={{ color: pathname.startsWith('/admin/orderlist') ? 'white' : 'black' }} className={styles.link} to='/admin/orderlist'>
+          <i className="mr-2 fas fa-wallet"></i>Orders
+            </Link>
         </ListItem>
       </OrderList>
     </Menu>

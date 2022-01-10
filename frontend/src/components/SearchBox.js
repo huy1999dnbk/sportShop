@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import {Form,Button} from 'react-bootstrap'
 import styled from 'styled-components'
 import InputComponent from './Input/InputComponent'
-
+import ButtonComponent from '../components/Button/ButtonComponent'
 const FormContainer = styled.form`
     display:flex;
     flex-direction:row;
@@ -27,7 +27,7 @@ const SearchBox = ({history}) => {
         <FormContainer onSubmit={submitHandler} inline="true">
             <InputComponent type='text' name='q' onChange={e => setKeyword(e.target.value)} placeholder='Search Product' className='mr-sm-2 ml-sm-3'>
             </InputComponent>
-            <Button type='submit' variant='outline-success' className='p-1'>Search</Button>
+            <ButtonComponent type='submit' variant='outline-success' className='p-1'>Search</ButtonComponent>
         </FormContainer>
     )
 }

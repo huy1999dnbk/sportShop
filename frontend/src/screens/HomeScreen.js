@@ -6,8 +6,8 @@ import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
+
 import { Link } from 'react-router-dom'
-import Chatbot from '../components/Chatbot/Chatbot'
 import Product from '../components/Product/Product'
 import Loader from '../components/Loader/Loader'
 const HomeScreen = ({ match }) => {

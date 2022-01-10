@@ -21,6 +21,11 @@ import OrderListScreen from './screens/OrderListScreen'
 import Chatbot from './components/Chatbot/Chatbot'
 import DashboardAdmin from './screens/DashboardAdmin/DashboardAdmin'
 import AdminRoute from './routes/AdminRoute/AdminRoute'
+import styled from 'styled-components'
+const ContainerPage = styled.div`
+  padding: 0 1rem;
+`
+
 function App() {
   const [openMess, setOpenMess] = useState(false)
 
@@ -36,7 +41,7 @@ function App() {
     <Router>
       <Header />
       <main>
-        <Container>
+        <ContainerPage>
           <Switch>
             <Route path='/order/:id' component={OrderScreen} />
             <Route path='/login' component={LoginScreen} />
@@ -59,7 +64,7 @@ function App() {
             <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact />
             <Route path='/' component={HomeScreen} exact />
           </Switch>
-        </Container>
+        </ContainerPage>
       </main>
       {openMess && <div className='container-chatbot'>
         <Chatbot closeMessage={closeMessage} />

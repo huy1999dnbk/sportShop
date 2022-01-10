@@ -4,6 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getUserDetails, updateUserProfile } from '../action/userAction'
 import { listMyOrders } from '../action/orderAction'
 import InputComponent from '../components/Input/InputComponent'
@@ -34,7 +36,7 @@ const ProfileScreen = ({ location, history }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState(null)
-  
+
   const dispatch = useDispatch()
 
   const userDetail = useSelector(state => state.userDetail)
@@ -80,7 +82,17 @@ const ProfileScreen = ({ location, history }) => {
 
   return (
     <>
-      <Row style={{paddingTop:'32px'}}>
+      <ToastContainer
+        position="top-right"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+      />
+      <Row style={{ paddingTop: '32px' }}>
         <Col md={12}>
           <Wrapper>
             <TitleInfo>User Profile</TitleInfo>
@@ -95,7 +107,7 @@ const ProfileScreen = ({ location, history }) => {
 
                     </InputComponent>
                   </Form.Group>
-                  <Form.Group controlId='email' style={{marginTop:'12px'}}>
+                  <Form.Group controlId='email' style={{ marginTop: '12px' }}>
                     <LabelInput>
                       Email Address
                     </LabelInput>
@@ -112,7 +124,7 @@ const ProfileScreen = ({ location, history }) => {
 
                     </InputComponent>
                   </Form.Group>
-                  <Form.Group controlId='confirmPassword' style={{marginTop:'12px'}}>
+                  <Form.Group controlId='confirmPassword' style={{ marginTop: '12px' }}>
                     <LabelInput>
                       Confirm Password
                     </LabelInput>
@@ -122,8 +134,8 @@ const ProfileScreen = ({ location, history }) => {
                   </Form.Group>
                 </Col>
               </Row>
-              <Row style={{justifyContent:'center',paddingTop:'32px'}}>
-                  <ButtonComponent type='submit' variant='primary'>Update</ButtonComponent>
+              <Row style={{ justifyContent: 'center', paddingTop: '32px' }}>
+                <ButtonComponent type='submit' variant='primary'>Update</ButtonComponent>
               </Row>
               {message && <Message variant='danger'>{message}</Message>}
               {error && <Message variant='danger'>{error}</Message>}
@@ -153,7 +165,7 @@ const ProfileScreen = ({ location, history }) => {
                 </thead>
                 <tbody>
                   {orders.map(order => (
-                    <tr key={order._id} style={{background:'white'}}>
+                    <tr key={order._id} style={{ background: 'white' }}>
                       <td>{order._id}</td>
                       <td>{order.createdAt.substring(0, 10)}</td>
                       <td>{order.totalPrice}</td>
