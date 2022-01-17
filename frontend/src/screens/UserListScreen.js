@@ -6,6 +6,26 @@ import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
 import { listUsers } from '../action/userAction'
 import { deleteUser } from '../action/userAction'
+import styled from 'styled-components'
+
+const TdComponent = styled.td`
+  border:none !important;
+  padding:18px 5px !important;
+  text-align:center;
+  font-size:16px
+`
+const ThComponent = styled.th`
+  border:none !important;
+  padding:18px 5px !important;
+  text-align:center
+`
+
+const TableContainer = styled.div`
+  border-radius:10px;
+  -webkit-box-shadow: 2px 6px 15px -1px #000000; 
+  box-shadow: 2px 6px 15px -1px #000000;
+`
+
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch()
 
@@ -25,7 +45,7 @@ const UserListScreen = ({ history }) => {
       history.push('/login')
     }
 
-  }, [dispatch, history, successDelete,userInfo])
+  }, [dispatch, history, successDelete, userInfo])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
@@ -37,39 +57,41 @@ const UserListScreen = ({ history }) => {
     <>
       <h1>User</h1>
       {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
-        <Table striped bordered hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Admin</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user => (
-              <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
-                <td><a href={`mailto:${user.email}`}> {user.email}</a></td>
-                <td>
-                  {user.isAdmin ? (<i className='fas fa-check' style={{ color: 'green' }}></i>) : (<i className='fas fa-times' style={{ color: 'red' }}></i>)}
-                </td>
-                <td>
-                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                    <Button variant='light' className='btn-sm'>
-                      <i className='fas fa-edit'></i>
-                    </Button>
-                  </LinkContainer>
-                  <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(user._id)}>
-                    <i className='fas fa-trash'></i>
-                  </Button>
-                </td>
+        <TableContainer>
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+             
+                <ThComponent>Name</ThComponent>
+                <ThComponent>Email</ThComponent>
+                <ThComponent>Admin</ThComponent>
+                <ThComponent>ACTION</ThComponent>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {users.map(user => (
+                <tr key={user._id} style={{ background: 'white' }}>
+              
+                  <TdComponent>{user.name}</TdComponent>
+                  <TdComponent><a href={`mailto:${user.email}`}> {user.email}</a></TdComponent>
+                  <TdComponent>
+                    {user.isAdmin ? (<i className='fas fa-check' style={{ color: 'green' }}></i>) : (<i className='fas fa-times' style={{ color: 'red' }}></i>)}
+                  </TdComponent>
+                  <TdComponent>
+                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
+                      <Button variant='light' className='btn-sm'>
+                        <i className='fas fa-edit'></i>
+                      </Button>
+                    </LinkContainer>
+                    <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(user._id)}>
+                      <i className='fas fa-trash'></i>
+                    </Button>
+                  </TdComponent>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableContainer>
       )}
     </>
   )

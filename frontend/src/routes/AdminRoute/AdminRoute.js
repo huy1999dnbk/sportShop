@@ -1,7 +1,8 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { Route } from 'react-router-dom'
+import { Route,useHistory } from 'react-router-dom'
 import DashboardAdmin from '../../screens/DashboardAdmin/DashboardAdmin'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 const WrappepContainer = styled.div`
@@ -10,13 +11,22 @@ const WrappepContainer = styled.div`
 const DashBoard = styled.div`
   padding:10px;
   border-radius:5px;
-  -webkit-box-shadow: 5px 5px 7px 6px rgba(0,0,0,0.22); 
-  ox-shadow: 5px 5px 7px 6px rgba(0,0,0,0.22);
+ 
 `
 const AdminRoute = ({ Component, ...restRoute }) => {
+  const history = useHistory()
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
+
+  useEffect(() => {
+    if(!userInfo) {
+      history.replace('/')
+    }
+  },[userInfo])
+
   return <Route {...restRoute} render={(propsRoute => (
     <WrappepContainer>
-      <Row>
+      <Row style={{minHeight:'80vh'}}>
         <Col md={2}>
           <DashboardAdmin />
         </Col>

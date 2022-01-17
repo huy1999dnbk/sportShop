@@ -9,9 +9,28 @@ import LoaderAction from '../components/Loader/LoaderAction'
 import { listProducts, deleteProduct, createProduct } from '../action/productAction'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 import Paginate from '../components/Paginate'
+import styled from 'styled-components'
+
+const TdComponent = styled.td`
+  border:none !important;
+  padding:18px 5px !important;
+  text-align:center;
+  font-size:16px
+`
+const ThComponent = styled.th`
+  border:none !important;
+  padding:18px 5px !important;
+  text-align:center
+`
+
+const TableContainer = styled.div`
+  border-radius:10px;
+  -webkit-box-shadow: 2px 6px 15px -1px #000000; 
+  box-shadow: 2px 6px 15px -1px #000000;
+`
 const ProductListScreen = ({ history, match }) => {
 
-  
+
     const pageNumber = match.params.pageNumber || 1
     const dispatch = useDispatch()
 
@@ -48,7 +67,7 @@ const ProductListScreen = ({ history, match }) => {
     const createProductHandler = () => {
         dispatch(createProduct())
     }
-
+    
 
     return (
         <>
@@ -68,43 +87,45 @@ const ProductListScreen = ({ history, match }) => {
             {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <>
-                    <Table striped bordered hover responsive className='table-sm'>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Category</th>
-                                <th>Brand</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {products.map(product => (
-                                <tr key={product._id}>
-                                    <td>{product._id}</td>
-                                    <td>{product.name}</td>
-                                    <td>{product.price}</td>
-                                    <td>
-                                        {product.category}
-                                    </td>
-                                    <td>
-                                        {product.brand}
-                                    </td>
-                                    <td>
-                                        <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                                            <Button variant='light' className='btn-sm'>
-                                                <i className='fas fa-edit'></i>
-                                            </Button>
-                                        </LinkContainer>
-                                        <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
-                                            <i className='fas fa-trash'></i>
-                                        </Button>
-                                    </td>
+                    <TableContainer>
+                        <Table striped bordered hover responsive className='table-sm'>
+                            <thead>
+                                <tr>
+
+                                    <ThComponent>NAME</ThComponent>
+                                    <ThComponent>PRICE</ThComponent>
+                                    <ThComponent>CATEGORY</ThComponent>
+                                    <ThComponent>BRAND</ThComponent>
+                                    <ThComponent>ACTION</ThComponent>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                            </thead>
+                            <tbody>
+                                {products.map(product => (
+                                    <tr key={product._id} style={{background:'white'}}>
+
+                                        <TdComponent style={{maxWidth:'400px'}}>{product.name.length > 40 ? product.name.slice(0,40) + '...' : product.name}</TdComponent>
+                                        <TdComponent>{product.price}</TdComponent>
+                                        <TdComponent>
+                                            {product.category}
+                                        </TdComponent>
+                                        <TdComponent>
+                                            {product.brand.length > 20 ? product.brand.slice(0,20) + '...' : product.brand}
+                                        </TdComponent>
+                                        <TdComponent>
+                                            <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                                                <Button variant='light' className='btn-sm'>
+                                                    <i className='fas fa-edit'></i>
+                                                </Button>
+                                            </LinkContainer>
+                                            <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
+                                                <i className='fas fa-trash'></i>
+                                            </Button>
+                                        </TdComponent>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </TableContainer>
                     <Paginate page={page} pages={pages} isAdmin={true} />
                 </>
             )}

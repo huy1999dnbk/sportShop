@@ -1,4 +1,4 @@
-import { PRODUCT_DELETE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DETAIL_FAIL, PRODUCT_DETAIL_REQUEST, PRODUCT_DETAIL_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS,PRODUCT_CREATE_FAIL,PRODUCT_CREATE_REQUEST,PRODUCT_CREATE_RESET,PRODUCT_CREATE_SUCCESS,PRODUCT_UPDATE_FAIL,PRODUCT_UPDATE_REQUEST,PRODUCT_UPDATE_RESET,PRODUCT_UPDATE_SUCCESS, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_CREATE_REVIEW_FAIL, PRODUCT_TOP_REQUEST, PRODUCT_TOP_SUCCESS, PRODUCT_TOP_FAIL, PRODUCT_TREND_REQUEST, PRODUCT_TREND_SUCCESS, PRODUCT_TREND_FAIL,PRODUCT_DETAIL_RESET } from '../constants/productConstants'
+import { PRODUCT_DELETE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DETAIL_FAIL, PRODUCT_DETAIL_REQUEST, PRODUCT_DETAIL_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS,PRODUCT_CREATE_FAIL,PRODUCT_CREATE_REQUEST,PRODUCT_CREATE_RESET,PRODUCT_CREATE_SUCCESS,PRODUCT_UPDATE_FAIL,PRODUCT_UPDATE_REQUEST,PRODUCT_UPDATE_RESET,PRODUCT_UPDATE_SUCCESS, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_CREATE_REVIEW_FAIL, PRODUCT_TOP_REQUEST, PRODUCT_TOP_SUCCESS, PRODUCT_TOP_FAIL, PRODUCT_TREND_REQUEST, PRODUCT_TREND_SUCCESS, PRODUCT_TREND_FAIL,PRODUCT_DETAIL_RESET, PRODUCT_RECOMMEND_REQUEST, PRODUCT_RECOMMEND_SUCCESS, PRODUCT_RECOMMEND_FAIL, PRODUCT_TOP_RECOMMEND_REQUEST, PRODUCT_TOP_RECOMMEND_SUCCESS, PRODUCT_TOP_RECOMMEND_FAIL } from '../constants/productConstants'
 import axios from 'axios'
 import {toast} from 'react-toastify'
 export const listProducts = (keyword = '',pageNumber = '') => async (dispatch) => {
@@ -161,13 +161,13 @@ export const createProductReview = (productId,review) => async (dispatch, getSta
   }
 }
 
-export const listTopProducts = () => async (dispatch) => {
+export const listTopProducts = (qty) => async (dispatch) => {
   try {
     dispatch({
       type: PRODUCT_TOP_REQUEST
     })
 
-    const { data } = await axios.get(`/api/products/top`)
+    const { data } = await axios.get(`/api/products/top/${qty}`)
 
     dispatch({
       type: PRODUCT_TOP_SUCCESS,
@@ -196,6 +196,54 @@ export const listTrendProducts = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_TREND_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message
+    })
+  }
+}
+
+
+export const listTopRecommendProducts = (qty) => async (dispatch,getState) => {
+  try {
+    dispatch({
+      type: PRODUCT_TOP_RECOMMEND_REQUEST
+    })
+    
+    const { data } = await axios.get(`/api/products/top/${qty}`)
+
+    dispatch({
+      type: PRODUCT_TOP_RECOMMEND_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_TOP_RECOMMEND_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message
+    })
+  }
+}
+
+
+export const listRecommendProducts = () => async (dispatch,getState) => {
+  try {
+    dispatch({
+      type: PRODUCT_RECOMMEND_REQUEST
+    })
+    const { userLogin: { userInfo } } = getState()
+    const config = {
+      headers: {
+        'Content-Type':'application/json',
+        Authorization: `Bearer ${userInfo.token}`
+      }
+    }
+    const { data } = await axios.get(`/api/products/recommendproduct`,config)
+
+    dispatch({
+      type: PRODUCT_RECOMMEND_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_RECOMMEND_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message
     })
   }

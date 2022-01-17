@@ -8,7 +8,8 @@ const Menu = styled.div`
   border-radius:5px;
   -webkit-box-shadow: 5px 5px 7px 6px rgba(0,0,0,0.22); 
   ox-shadow: 5px 5px 7px 6px rgba(0,0,0,0.22);
-  
+  background:white;
+  height:100% !important
 `
 
 const OrderList = styled.ul`

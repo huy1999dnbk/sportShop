@@ -10,9 +10,9 @@ import LoaderAction from '../components/Loader/LoaderAction'
 import FormContainer from '../components/FormContainer'
 import { listProductDetail, updateProduct } from '../action/productAction'
 import { PRODUCT_DETAIL_RESET, PRODUCT_UPDATE_RESET } from '../constants/productConstants'
-import axios from 'axios'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../firebase'
+import InputComponent from '../components/Input/InputComponent'
 const ProductEditScreen = ({ match, history }) => {
     const successAlert = () => toast("Upload success to firebase!");
     const failAlert = () => toast("Upload to firebase fail!")
@@ -78,7 +78,6 @@ const ProductEditScreen = ({ match, history }) => {
                 }
             },
             (error) => {
-                console.log(error)
                 setUploading(false)
                 failAlert()
             },
@@ -122,62 +121,48 @@ const ProductEditScreen = ({ match, history }) => {
                 {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
                 {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                     <Form onSubmit={submitHandler}>
-                        <Form.Group controlId='name'>
-                            <Form.Label>
-                                Name
-                            </Form.Label>
-                            <Form.Control type='name' placeholder='Enter name' value={name} onChange={e => setName(e.target.value)}>
+                        <Form.Group className='mt-3' controlId='name'>
+                        
+                            <InputComponent className='w-100' label='name' type='name' placeholder='Enter name' value={name} onChange={e => setName(e.target.value)}>
 
-                            </Form.Control>
+                            </InputComponent>
                         </Form.Group>
-                        <Form.Group controlId='price'>
-                            <Form.Label>
-                                Price
-                            </Form.Label>
-                            <Form.Control type='number' placeholder='Enter price' value={price} onChange={e => setPrice(e.target.value)}>
+                        <Form.Group className='mt-3' controlId='price'>
+                          
+                            <InputComponent className='w-100' label='Price' type='number' placeholder='Enter price' value={price} onChange={e => setPrice(e.target.value)}>
 
-                            </Form.Control>
+                            </InputComponent>
                         </Form.Group>
-                        <Form.Group controlId='image '>
-                            <Form.Label>
-                                Image
-                            </Form.Label>
-                            <Form.Control type='text' placeholder='Enter image url' value={image} onChange={e => setImage(e.target.value)}>
-                            </Form.Control>
-                            <Form.Control type='file' label="Choose file" custom="true" onChange={uploadFileHandler}></Form.Control>
+                        <Form.Group className='mt-3' controlId='image '>
+                           
+                            <InputComponent className='w-100' label='Image' type='text' placeholder='Enter image url' value={image} onChange={e => setImage(e.target.value)}>
+                            </InputComponent>
+                            <InputComponent variant='filled' className='w-100 mt-3' type='file' custom="true" onChange={uploadFileHandler}></InputComponent>
                             {uploading && <LoaderAction />}
                         </Form.Group>
-                        <Form.Group controlId='brand '>
-                            <Form.Label>
-                                Brand
-                            </Form.Label>
-                            <Form.Control type='text' placeholder='Enter brand' value={brand} onChange={e => setBrand(e.target.value)}>
+                        <Form.Group className='mt-3' controlId='brand '>
+                          
+                            <InputComponent className='w-100' label='brand' type='text' placeholder='Enter brand' value={brand} onChange={e => setBrand(e.target.value)}>
 
-                            </Form.Control>
+                            </InputComponent>
                         </Form.Group>
-                        <Form.Group controlId='countInStock'>
-                            <Form.Label>
-                                count In Stock
-                            </Form.Label>
-                            <Form.Control type='number' placeholder='Enter countInStock' value={countInStock} onChange={e => setCountInStock(e.target.value)}>
+                        <Form.Group className='mt-3' controlId='countInStock'>
+                         
+                            <InputComponent className='w-100' label='Count in stock' type='number' placeholder='Enter countInStock' value={countInStock} onChange={e => setCountInStock(e.target.value)}>
 
-                            </Form.Control>
+                            </InputComponent>
                         </Form.Group>
-                        <Form.Group controlId='category'>
-                            <Form.Label>
-                                Category
-                            </Form.Label>
-                            <Form.Control type='text' placeholder='Enter category' value={category} onChange={e => setCategory(e.target.value)}>
+                        <Form.Group className='mt-3' controlId='category'>
+                           
+                            <InputComponent className='w-100' label='category' type='text' placeholder='Enter category' value={category} onChange={e => setCategory(e.target.value)}>
 
-                            </Form.Control>
+                            </InputComponent>
                         </Form.Group>
-                        <Form.Group controlId='description'>
-                            <Form.Label>
-                                Description
-                            </Form.Label>
-                            <Form.Control type='text' placeholder='Enter description' value={description} onChange={e => setDescription(e.target.value)}>
+                        <Form.Group className='mt-3' controlId='description'>
+                         
+                            <InputComponent className='w-100' label='description' type='text' placeholder='Enter description' value={description} onChange={e => setDescription(e.target.value)}>
 
-                            </Form.Control>
+                            </InputComponent>
                         </Form.Group>
                         <Button type='submit' variant='primary'>Update</Button>
                     </Form>

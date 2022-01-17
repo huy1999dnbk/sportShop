@@ -31,6 +31,7 @@ const Wrapper = styled.div`
 `
 
 const ProfileScreen = ({ location, history }) => {
+  
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -79,7 +80,6 @@ const ProfileScreen = ({ location, history }) => {
     }
 
   }
-
   return (
     <>
       <ToastContainer

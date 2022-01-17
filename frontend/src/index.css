@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet');
+
+
 
 body{
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'Roboto Mono', monospace !important;
   background-color: white;
   font-weight: 500;
 }
@@ -13,6 +15,7 @@ main {
 
 .container-page{
   padding: 0 1rem;
+
 }
 
 .carousel-item-next,.carousel-item-prev,.carousel-item-active {

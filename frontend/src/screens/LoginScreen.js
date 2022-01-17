@@ -92,18 +92,12 @@ const LoginScreen = ({ location, history }) => {
         {loading && <LoaderAction />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='email'>
-            <FormLabel>
-              Email Address
-            </FormLabel>
-            <InputComponent style={{ width: '100%' }} type='email' placeholder='Enter email' value={email} onChange={e => setEmail(e.target.value)}>
+            <InputComponent label="Email" className='w-100' type='email' placeholder='Enter email' value={email} onChange={e => setEmail(e.target.value)}>
             </InputComponent>
             <ErrorMessage>{errorEmail}</ErrorMessage>
           </Form.Group>
           <Form.Group controlId='password' className='mt-3'>
-            <FormLabel>
-              Password
-            </FormLabel>
-            <InputComponent style={{ width: '100%' }} type='password' placeholder='Enter password' value={password} onChange={e => setPassword(e.target.value)}>
+            <InputComponent label="Password" className='w-100' type='password' placeholder='Enter password' value={password} onChange={e => setPassword(e.target.value)}>
             </InputComponent>
             <ErrorMessage>{errorPassword}</ErrorMessage>
           </Form.Group>
