@@ -1,10 +1,9 @@
 const asyncHandler = require('express-async-handler')
 const Product = require('../model/productModel')
 const Order = require('../model/orderModel')
-const levenshtein = require('damerau-levenshtein')
-const { resolve } = require('path');
-const { rejects } = require('assert');
-var stringSimilarity = require("string-similarity");
+const csv = require('csv-parser')
+const fs = require('fs')
+const stringSimilarity = require("string-similarity");
 
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10
@@ -134,20 +133,66 @@ const getProductRecommmend = asyncHandler(async (req, res) => {
     const products = await Product.find({}).sort({ rating: -1 }).limit(8)
     return res.json(products)
   } else {
-    let arrResultMeasure = []
-    let arrDescProducts = []
-    for (const element of lastOrder.orderItems) {
-      let tmpResult = []
-      const product = await Product.findById(element.product).select('description _id')
-      products.forEach(item => {
-        let lev = levenshtein(item.description,product.description)
-        tmpResult.push({...item._doc,...lev})
-      })
-      tmpResult.sort((a,b) => b.similarity - a.similarity)
-      tmpResult = tmpResult.slice(0,3)
-      arrDescProducts = arrDescProducts.concat(tmpResult)
+    let results = []
+    const calSimilarity = (textA, textB) => {
+      return stringSimilarity.compareTwoStrings(textA, textB)
     }
-    res.json(arrDescProducts)
+
+    const calDistance = (productMain, productSample) => {
+      let simi = calSimilarity(String(productMain.name), String(productSample.name))
+      let distance = Math.pow(Number(productMain.price - productSample.price), 2) + Math.pow(Number(productMain.rating - productSample.rating), 2) + Math.pow(simi, 2)
+      return Math.sqrt(distance).toFixed(2)
+    }
+
+    fs.createReadStream('data.csv').pipe(csv()).on('data', (row) => results.push(row)).on('end', () => {
+
+      let resultProduct = []
+ 
+      const kNearesrNeighbor = (itemMain, k) => {
+        let distances = []
+        results.forEach(item => {
+          const tmpItem = {
+            'id': item.id,
+            'label': item.sport,
+            'distance': calDistance(itemMain, item),
+          }
+          distances.push(tmpItem)
+        })
+        distances.sort((a, b) => a.distance - b.distance)
+        distances = distances.slice(0, k)
+        return distances
+      }
+      const getProduct = async () => {
+        for (const element of lastOrder.orderItems) {
+          const product = await Product.findById(element.product)
+          const result = kNearesrNeighbor({
+            price: product.price,
+            rating: product.rating,
+            name: product.name,
+          },4)
+          resultProduct = resultProduct.concat(result)
+        }
+        if(lastOrder.orderItems.length > 1){
+          resultProduct = resultProduct.slice(0,8)
+        }
+        resultProduct.sort((a,b) => Number(a.distance) - Number(b.distance))
+        let arrProduct = []
+        resultProduct.forEach(itemDis => {
+          products.forEach((item,index) => {
+            if(Number(itemDis.id) === index){
+              arrProduct.push(item)
+            }
+          })
+        })
+        res.json(arrProduct)
+      }
+      getProduct()
+
+    
+    })
+
+
+
 
   }
 })
