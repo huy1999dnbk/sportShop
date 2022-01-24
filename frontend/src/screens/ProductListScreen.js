@@ -9,6 +9,8 @@ import LoaderAction from '../components/Loader/LoaderAction'
 import { listProducts, deleteProduct, createProduct } from '../action/productAction'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 import Paginate from '../components/Paginate'
+import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import styled from 'styled-components'
 
 const TdComponent = styled.td`
@@ -36,7 +38,7 @@ const ProductListScreen = ({ history, match }) => {
 
     const productList = useSelector(state => state.productList)
     const { loading, error, products, page, pages } = productList
-
+    console.log('products',products)
     const productCreate = useSelector(state => state.productCreate)
     const { loading: loadingCreate, success: successCreate, error: errorCreate, product: createdProduct } = productCreate
 
@@ -45,6 +47,8 @@ const ProductListScreen = ({ history, match }) => {
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
+
+   
 
     useEffect(() => {
         dispatch({ type: PRODUCT_CREATE_RESET })
@@ -58,6 +62,7 @@ const ProductListScreen = ({ history, match }) => {
         }
     }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct, pageNumber])
 
+
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure you want to delete this user?')) {
             dispatch(deleteProduct(id))
@@ -67,7 +72,7 @@ const ProductListScreen = ({ history, match }) => {
     const createProductHandler = () => {
         dispatch(createProduct())
     }
-    
+
 
     return (
         <>
@@ -82,10 +87,10 @@ const ProductListScreen = ({ history, match }) => {
                 </Col>
             </Row>
             {loadingDelete && <LoaderAction />}
-            {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+            {errorDelete && <Message variant='error'>{errorDelete}</Message>}
             {loadingCreate && <LoaderAction />}
-            {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
-            {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
+            {errorCreate && <Message variant='error'>{errorCreate}</Message>}
+            {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (
                 <>
                     <TableContainer>
                         <Table striped bordered hover responsive className='table-sm'>
@@ -101,24 +106,24 @@ const ProductListScreen = ({ history, match }) => {
                             </thead>
                             <tbody>
                                 {products.map(product => (
-                                    <tr key={product._id} style={{background:'white'}}>
+                                    <tr key={product._id} style={{ background: 'white' }}>
 
-                                        <TdComponent style={{maxWidth:'400px'}}>{product.name.length > 40 ? product.name.slice(0,40) + '...' : product.name}</TdComponent>
+                                        <TdComponent style={{ maxWidth: '400px' }}>{product.name.length > 40 ? product.name.slice(0, 40) + '...' : product.name}</TdComponent>
                                         <TdComponent>{product.price}</TdComponent>
                                         <TdComponent>
                                             {product.category}
                                         </TdComponent>
                                         <TdComponent>
-                                            {product.brand.length > 20 ? product.brand.slice(0,20) + '...' : product.brand}
+                                            {product.brand.length > 20 ? product.brand.slice(0, 20) + '...' : product.brand}
                                         </TdComponent>
                                         <TdComponent>
                                             <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                                                <Button variant='light' className='btn-sm'>
-                                                    <i className='fas fa-edit'></i>
+                                                <Button variant='light' >
+                                                    <ModeEditOutlineRoundedIcon sx={{ color: 'blue' }} />
                                                 </Button>
                                             </LinkContainer>
-                                            <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
-                                                <i className='fas fa-trash'></i>
+                                            <Button className='ml-2' style={{ background: 'white', borderColor: 'green' }} onClick={() => deleteHandler(product._id)}>
+                                                <DeleteForeverRoundedIcon sx={{ color: 'green' }} />
                                             </Button>
                                         </TdComponent>
                                     </tr>
@@ -126,9 +131,10 @@ const ProductListScreen = ({ history, match }) => {
                             </tbody>
                         </Table>
                     </TableContainer>
-                    <Paginate page={page} pages={pages} isAdmin={true} />
+
                 </>
             )}
+            <Paginate page={page} pages={pages} isAdmin={true} productList={products} />
         </>
     )
 }

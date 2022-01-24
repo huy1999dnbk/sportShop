@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProducts, listRecommendProducts, listTopProducts, listTrendProducts,listTopRecommendProducts } from '../action/productAction'
+import { listProducts, listRecommendProducts, listTopProducts, listTrendProducts, listTopRecommendProducts } from '../action/productAction'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
@@ -10,6 +10,8 @@ import Meta from '../components/Meta'
 import { Link } from 'react-router-dom'
 import Product from '../components/Product/Product'
 import Loader from '../components/Loader/Loader'
+import ProductRecommend from '../components/Product/ProductRecommend'
+import LastestProduct from '../components/LastedProduct/LastestProduct'
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
   const pageNumber = match.params.pageNumber || 1
@@ -21,19 +23,18 @@ const HomeScreen = ({ match }) => {
   const productRecommend = useSelector(state => state.productRecommend)
   const { loading: loadingRecommend, products: productsRecommend, error: errorRecommend } = productRecommend
   const productTopRecommend = useSelector(state => state.productTopRecommend)
-  const { loading:loadingTopRecommend, error:errorTopRecommend, products:productsTopRecommend} = productTopRecommend
+  const { loading: loadingTopRecommend, error: errorTopRecommend, products: productsTopRecommend } = productTopRecommend
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
   useEffect(() => {
-    dispatch(listProducts(keyword, pageNumber))
     dispatch(listTrendProducts())
     if (userInfo) {
       dispatch(listRecommendProducts())
     } else {
       dispatch(listTopRecommendProducts(8))
     }
-  }, [dispatch, keyword, pageNumber, userInfo])
+  }, [dispatch, userInfo])
   return (
     <>
       <Meta />
@@ -42,29 +43,29 @@ const HomeScreen = ({ match }) => {
           <ProductCarousel />
           <div>
             <h4>Just for you</h4>
-            {loadingTopRecommend ? <Loader /> : errorTopRecommend ? <Message variant='danger'>{errorTopRecommend}</Message> : (
+            {loadingTopRecommend ? <Loader /> : errorTopRecommend ? <Message variant='error'>{errorTopRecommend}</Message> : (
               <Row>
                 {!userInfo && productsTopRecommend.map((item, index) => (
-                  <Col md={3} sm={12} key={index}>
-                    <Product product={item} />
+                  <Col className='mb-3' xs={12} sm={6} md={4} lg={3} key={index}>
+                    <ProductRecommend product={item} />
                   </Col>
                 ))}
               </Row>
             )}
-            {loadingRecommend ? <Loader /> : errorRecommend ? <Message variant='danger'>{errorRecommend}</Message> : (
+            {loadingRecommend ? <Loader /> : errorRecommend ? <Message variant='error'>{errorRecommend}</Message> : (
               <Row>
                 {userInfo && productsRecommend.map((item, index) => (
-                  <Col md={3} sm={12} key={index}>
-                    <Product product={item} />
+                  <Col className='mb-3' xs={12} sm={6} md={4} lg={3} key={index}>
+                    <ProductRecommend product={item} />
                   </Col>
                 ))}
               </Row>
             )}
             <h4>Trending Product</h4>
-            {loadingTrend ? <Loader /> : errorTrend ? <Message variant='danger'>{errorTrend}</Message> : (
+            {loadingTrend ? <Loader /> : errorTrend ? <Message variant='error'>{errorTrend}</Message> : (
               <Row>
                 {productsTrend.map((item, index) => (
-                  <Col md={3} sm={12} key={index}>
+                  <Col className='mb-3' xs={12} sm={6} md={4} lg={3} key={index}>
                     <Product product={item} />
                   </Col>
                 ))}
@@ -79,19 +80,9 @@ const HomeScreen = ({ match }) => {
           </Link>
         </>
       )}
-
-      {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (<>
-        {!keyword && <h4>Latest product</h4>}
-        <Row>
-          {products.map(product => (
-            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-              <Product product={product} />
-            </Col>
-          ))}
-        </Row>
-        <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''} />
-      </>)}
-
+      <LastestProduct keyword={keyword} pageNumber={pageNumber} />
+   
+      <Paginate productList={products} pages={pages} page={page} keyword={keyword ? keyword : ''} />
 
     </>
   )

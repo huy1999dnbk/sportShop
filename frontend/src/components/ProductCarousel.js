@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react'
+
 import { Link } from 'react-router-dom'
-import { Carousel, Image } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import Loader from './Loader/Loader'
 import Message from './Message'
 import { listTopProducts } from '../action/productAction'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { Swiper, SwiperSlide } from 'swiper/react/swiper-react'
+import 'swiper/swiper.min.css'
+import 'swiper/modules/pagination/pagination.min.css'
+import SwiperCore, { EffectCoverflow, Pagination } from 'swiper';
+SwiperCore.use([EffectCoverflow, Pagination])
 const ProductCarousel = () => {
     const dispatch = useDispatch()
 
@@ -12,26 +19,37 @@ const ProductCarousel = () => {
     const { loading, error, products } = productTopRated
 
     useEffect(() => {
-        dispatch(listTopProducts(3))
+        dispatch(listTopProducts(5))
     }, [dispatch])
 
     return loading ? (
         <Loader />
     ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant='error'>{error}</Message>
     ) : (
-                <Carousel fade className='bg-dark' style={{ position: 'relative', marginTop: '20px',marginBottom:'20px' }}>
-            {products.map(product => (
-                <Carousel.Item key={product._id}>
-                    <Link to={`/product/${product._id}`}>
-                        <Image src={product.image} alt={product.name} fluid />
-                        <Carousel.Caption className='carousel-caption'>
-                            <h2>{product.name.length > 46 ? product.name.slice(0,46) + '...' : product.name}</h2>
-                        </Carousel.Caption>
-                    </Link>
-                </Carousel.Item>
-            ))}
-        </Carousel>
+        <>
+            <h4 className='mb-3'>Top Rating</h4>
+            <Swiper
+                // install Swiper modules
+                effect={'coverflow'} grabCursor={true} centeredSlides={true} slidesPerView={'auto'} coverflowEffect={{
+                    "rotate": 50,
+                    "stretch": 0,
+                    "depth": 100,
+                    "modifier": 1,
+                    "slideShadows": true
+                }} pagination={true} className="mySwiper mb-3"
+                initialSlide="2"
+            >
+                {products.map(product => (
+                    <SwiperSlide key={product._id}>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to={`/product/${product._id}`}>
+                            <img src={product.image} alt={product.name} />
+                        </Link>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        </>
+
     )
 }
 

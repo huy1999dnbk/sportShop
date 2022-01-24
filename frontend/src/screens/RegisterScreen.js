@@ -38,10 +38,12 @@ const ErrorMessage = styled.span`
 const RegisterScreen = ({ location, history }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phoneNumber,setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [nameError, setNameError] = useState(null)
   const [emailError, setEmailError] = useState(null)
+  const [phoneError,setPhoneError] = useState(null)
   const [passwordError, setPasswordError] = useState(null)
   const [confirmPasswordError, setConfirmPasswordError] = useState(null)
 
@@ -64,6 +66,11 @@ const RegisterScreen = ({ location, history }) => {
   const handleChangeEmail = (e) => {
     setEmail(e.target.value)
   }
+
+  const handleChangePhone = (e) => {
+    setPhoneNumber(e.target.value)
+  }
+
   const handleChangePassword = (e) => {
     setPassword(e.target.value)
   }
@@ -80,13 +87,22 @@ const RegisterScreen = ({ location, history }) => {
     } else {
       setNameError(null)
     }
-    const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const regexEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-    if (!regex.test(email)) {
+    if (!regexEmail.test(email)) {
       setEmailError('Email is invalid')
       return
     } else {
       setEmailError(null)
+    }
+
+    const regexPhone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g
+
+    if(!regexPhone.test(phoneNumber)){
+      setPhoneError('Phone is invalid')
+      return
+    } else {
+      setPhoneError(null)
     }
 
     if (password === '' || password < 6) {
@@ -103,7 +119,7 @@ const RegisterScreen = ({ location, history }) => {
     }
     //dispatch Login
 
-    dispatch(register(name, email, password))
+    dispatch(register(name, email, password,phoneNumber))
 
   }
 
@@ -122,8 +138,8 @@ const RegisterScreen = ({ location, history }) => {
       />
       <ContainerPage>
         <TitlePage>Sign Up</TitlePage>
-        {message && <Message variant='danger'>{message}</Message>}
-        {error && <Message variant='danger'>{error}</Message>}
+        {message && <Message variant='error'>{message}</Message>}
+        {error && <Message variant='error'>{error}</Message>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
@@ -138,6 +154,13 @@ const RegisterScreen = ({ location, history }) => {
 
             </InputComponent>
             {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
+          </Form.Group>
+          <Form.Group controlId='Phone' className="mt-3">
+
+            <InputComponent label="Phone Number" className='w-100' name='phoneNumber' type='text' placeholder='Enter Your Phone Number' value={phoneNumber} onChange={handleChangePhone}>
+
+            </InputComponent>
+            {phoneError && <ErrorMessage>{phoneError}</ErrorMessage>}
           </Form.Group>
           <Form.Group controlId='password' className="mt-3">
 

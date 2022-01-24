@@ -12,6 +12,40 @@ import ButtonComponent from '../../components/Button/ButtonComponent'
 import styles from './productscreen.module.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InputComponent from '../../components/Input/InputComponent'
+import styled from 'styled-components'
+const ContainerCounter = styled.div`
+  height:60px;
+  border:none;
+  display:flex;
+  flex-direction:row;
+  max-width:150px
+`
+
+const ButtonCounter = styled.button`
+  width:45px;
+  height:45px;
+  border-radius:5px;
+  border:none;
+  color:black;
+  font-size:24px;
+  background:white;
+  &:hover{
+    background:#ccc
+  }
+`
+
+const NumberProduct = styled.span`
+  height:48px;
+  border:none;
+  font-size:24px;
+  color:black;
+  max-width:60px;
+  background:white;
+  margin:0 12px;
+  padding-top:5px;
+`
+
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1)
   const [rating, setRating] = useState(0)
@@ -53,6 +87,22 @@ const ProductScreen = ({ history, match }) => {
     }
   }
 
+  const handleChangeCounter = (operator) => {
+    if(operator === -1 && qty === 1) {
+      return;
+    }
+    if(operator === -1) {
+      setQty(prevState => prevState - 1)
+    } 
+    
+    if(operator === 1 && Number(product.countInStock) === qty) {
+      return;
+    } 
+    if(operator === 1){
+      setQty(prevState => prevState + 1)
+    }
+  }
+
   return (
     <>
       <ToastContainer
@@ -69,11 +119,11 @@ const ProductScreen = ({ history, match }) => {
       <Link className='btn btn-light my-3' to='/'>
         Go back
       </Link>
-      {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (<>
+      {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (<>
 
         <Row>
           <Col md={6}>
-            <Image src={product.image} alt={product.name} style={{ width: '100%', height: '100%' }} />
+            <Image src={product.image} alt={product.name} style={{ width: '100%', height: '100%',maxHeight:'700px' }} />
           </Col>
           <Col md={6}>
             <p className={styles.nameProd}>{product.name}</p>
@@ -84,16 +134,14 @@ const ProductScreen = ({ history, match }) => {
             {
               product.countInStock > 0 && (
                 <Row>
-                  <Col md={4}>
-                    <FormControl style={{ fontSize: '22px' }} as='select' value={qty} onChange={e => setQty(e.target.value)}>
-                      {[...Array(product.countInStock).keys()].map(x => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </FormControl>
+                  <Col md={5}>
+                    <ContainerCounter>
+                      <ButtonCounter onClick={() => handleChangeCounter(-1)}>-</ButtonCounter>
+                      <NumberProduct >{qty}</NumberProduct> 
+                      <ButtonCounter onClick={() => handleChangeCounter(1)}>+</ButtonCounter>
+                    </ContainerCounter>
                   </Col>
-                  <Col md={8}>
+                  <Col md={7}>
                     <ButtonComponent onClick={addToCartHandler} disabled={product.countInStock === 0}>
                       Add to Cart
                     </ButtonComponent>

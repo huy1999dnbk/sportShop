@@ -11,6 +11,7 @@ import { listMyOrders } from '../action/orderAction'
 import InputComponent from '../components/Input/InputComponent'
 import ButtonComponent from '../components/Button/ButtonComponent'
 import styled from 'styled-components'
+import { toast } from 'react-toastify';
 import { USER_DETAIL_RESET, USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import LoaderAction from '../components/Loader/LoaderAction'
 const LabelInput = styled.label`
@@ -34,6 +35,7 @@ const ProfileScreen = ({ location, history }) => {
   
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phoneNumber,setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState(null)
@@ -42,7 +44,6 @@ const ProfileScreen = ({ location, history }) => {
 
   const userDetail = useSelector(state => state.userDetail)
   const { loading, error, user } = userDetail
-
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
@@ -63,19 +64,24 @@ const ProfileScreen = ({ location, history }) => {
       } else {
         setName(user.name)
         setEmail(user.email)
+        setPhoneNumber(user.phoneNumber)
       }
     }
   }, [dispatch, history, userInfo, user, orders])
 
   const submitHandler = (e) => {
     e.preventDefault()
-    //dispatch Login
-    if (password !== confirmPassword) {
-      setMessage('Password no not match')
+    const regexEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const regexPhone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g
+    if(password !== '' && password.length < 6) {
+      return toast.error('Password must atleast 6 characters')
+    }
+    if (name === '' || !regexEmail.test(email) || !regexPhone.test(phoneNumber) || password !== confirmPassword) {
+      return toast.error('Infomation update is invalid! please try again!')
     } else {
       dispatch(updateUserProfile({
         id: user._id,
-        name, email, password
+        name, email, password,phoneNumber
       }))
     }
 
@@ -100,35 +106,32 @@ const ProfileScreen = ({ location, history }) => {
               <Row>
                 <Col md={6}>
                   <Form.Group controlId='name'>
-                    <LabelInput>
-                      Name
-                    </LabelInput>
-                    <InputComponent type='name' placeholder='Enter name' value={name} onChange={e => setName(e.target.value)}>
+                    
+                    <InputComponent className='w-100' label='name' type='name' placeholder='Enter name' value={name} onChange={e => setName(e.target.value)}>
 
                     </InputComponent>
                   </Form.Group>
                   <Form.Group controlId='email' style={{ marginTop: '12px' }}>
-                    <LabelInput>
-                      Email Address
-                    </LabelInput>
-                    <InputComponent type='email' placeholder='Enter email' value={email} onChange={e => setEmail(e.target.value)}>
+                    
+                    <InputComponent className='w-100' label='Email' type='email' placeholder='Enter email' value={email} onChange={e => setEmail(e.target.value)}>
+                    </InputComponent>
+                  </Form.Group>
+                  <Form.Group controlId='phoneNumber' style={{ marginTop: '12px' }}>
+                    
+                    <InputComponent className='w-100' label='Phone Number' type='text' placeholder='Enter Your Phone Number' value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)}>
                     </InputComponent>
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group controlId='password'>
-                    <LabelInput>
-                      Password
-                    </LabelInput>
-                    <InputComponent type='password' placeholder='Enter password' value={password} onChange={e => setPassword(e.target.value)}>
+                   
+                    <InputComponent className='w-100' label='password' type='password' placeholder='Enter password' value={password} onChange={e => setPassword(e.target.value)}>
 
                     </InputComponent>
                   </Form.Group>
                   <Form.Group controlId='confirmPassword' style={{ marginTop: '12px' }}>
-                    <LabelInput>
-                      Confirm Password
-                    </LabelInput>
-                    <InputComponent type='password' placeholder='Confirm password' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}>
+                   
+                    <InputComponent className='w-100' label='Confirm Password' type='password' placeholder='Confirm password' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}>
 
                     </InputComponent>
                   </Form.Group>
@@ -137,8 +140,8 @@ const ProfileScreen = ({ location, history }) => {
               <Row style={{ justifyContent: 'center', paddingTop: '32px' }}>
                 <ButtonComponent type='submit' variant='primary'>Update</ButtonComponent>
               </Row>
-              {message && <Message variant='danger'>{message}</Message>}
-              {error && <Message variant='danger'>{error}</Message>}
+              {message && <Message variant='error'>{message}</Message>}
+              {error && <Message variant='error'>{error}</Message>}
               {loading && <LoaderAction />}
             </Form>
 
@@ -151,7 +154,7 @@ const ProfileScreen = ({ location, history }) => {
             <TitleInfo>
               Order
             </TitleInfo>
-            {loadingOrders ? <Loader /> : errorOrders ? <Message variant='danger'>{errorOrders}</Message> : (
+            {loadingOrders ? <Loader /> : errorOrders ? <Message variant='error'>{errorOrders}</Message> : (
               <Table striped bordered hover responsive className='table-sm'>
                 <thead>
                   <tr>

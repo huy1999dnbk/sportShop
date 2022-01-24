@@ -51,7 +51,7 @@ const OrderListScreen = ({ history }) => {
   return (
     <>
       <h1>Orders</h1>
-      {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
+      {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (
         <TableContainer>
           <Table striped hover responsive className='table-sm'>
             <thead>

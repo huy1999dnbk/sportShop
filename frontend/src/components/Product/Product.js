@@ -1,56 +1,64 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+
 import Rating from '../Rating'
-import styles from './product.module.css'
+import styled from 'styled-components';
+const CardContainer = styled.div`
+  max-width:300px;
+  height:500px;
+  border:none;
+  @media (max-width: 576px) {
+    min-width:100% !important;
+  }
+`
+const CardImage = styled.img`
+  width:100%;
+  height:250px;
+  display:block
+`
+
+const CardContent = styled.div`
+  padding:16px;
+  background:#FAFAFA;
+  height:250px
+`
+
+const CardTitle = styled.h5`
+  font-weight:500;
+  color:black;
+  text-transform:uppercase
+`
+
+const CardDescription = styled.p`
+  color:black;
+  font-size:14px;
+`
+
+const CardPrice = styled.div`
+  display:flex;
+  flex-direction:row
+`
+
+const PriceInfo = styled.span`
+  color:black;
+  font-size:16px
+`
 const Product = ({ product }) => {
   return (
     <>
-      <Link to={`/product/${product._id}`} >
-        <Card sx={{ maxWidth: 345,height:450,marginBottom:8 }}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="250"
-              image={product.image}
-              alt="green iguana"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {product.name}
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                <Rating value={product.rating} text={`${product.numReviews} reviews`} />
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                ${product.price}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+      <Link style={{textDecoration:'none'}} to={`/product/${product._id}`} >
+        <CardContainer>
+          <CardImage src={product.image} alt={product.name} />
+          <CardContent>
+            <CardTitle>{product.name.length > 24 ? product.name.slice(0,24) + '...' : product.name}</CardTitle>
+            <CardDescription>{product.description.length > 140 ? product.description.slice(0,120) + '...' : product.description}</CardDescription>
+            <CardPrice>
+              <Rating value={product.rating} />
+              <PriceInfo>${product.price}</PriceInfo>
+            </CardPrice>
+          </CardContent>
+        </CardContainer>
       </Link>
-      {/* <Card className={`my-3 ${styles.card}`} style={{ height: '400px', borderRadius: '30px' }}>
-        <Link to={`/product/${product._id}`} style={{ overflow: 'hidden', border: 'none' }}>
-          <Card.Img src={product.image} style={{ borderTopLeftRadius: '30px', borderTopRightRadius: '30px', width: '100%', height: '200px', overflow: 'hidden', border: 'none' }} />
-        </Link>
-        <Card.Body>
-          <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }} >
-            <Card.Title as='div'>
-              <span >{product.name}</span>
-            </Card.Title>
-          </Link>
-          <Card.Text as='div'>
-            <Rating value={product.rating} text={`${product.numReviews} reviews`} />
-          </Card.Text>
-          <Card.Text as='h5'>
-            ${product.price}
-          </Card.Text>
-        </Card.Body>
-      </Card> */}
     </>
   )
 }

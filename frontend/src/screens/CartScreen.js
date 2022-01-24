@@ -20,6 +20,37 @@ const TotalPrice = styled.p`
   font-size:28px;
   color:black
 `
+const ContainerCounter = styled.div`
+  height:60px;
+  border:none;
+  display:flex;
+  flex-direction:row;
+  max-width:150px
+`
+
+const ButtonCounter = styled.button`
+  width:45px;
+  height:45px;
+  border-radius:5px;
+  border:none;
+  color:black;
+  font-size:24px;
+  background:white;
+  &:hover{
+    background:#ccc
+  }
+`
+
+const NumberProduct = styled.span`
+  height:48px;
+  border:none;
+  font-size:24px;
+  color:black;
+  max-width:60px;
+  background:white;
+  margin:0 12px;
+  padding-top:5px;
+`
 
 const CartScreen = ({ match, location, history }) => {
 
@@ -50,13 +81,31 @@ const CartScreen = ({ match, location, history }) => {
     setProductDelete('')
   }
 
-  const getProductId = id => id
 
   const confirmModal = (id) => {
     dispatch(removeFromCart(productDelete))
     setShowModal(false)
     setProductDelete('')
   }
+
+  const handleChangeCounter = (operator,productBuy,productStock,productId) => {
+    if (operator === -1 && productBuy === 1) {
+      setProductDelete(productId)
+      setShowModal(true)
+      return;
+    }
+    if (operator === -1) {
+      dispatch(addToCart(productId, Number(productBuy) - 1))
+    }
+
+    if (operator === 1 && Number(productStock) === Number(productBuy)) {
+      return;
+    }
+    if (operator === 1) {
+      dispatch(addToCart(productId, Number(productBuy) + 1))
+    }
+  }
+
   return (
     <>
       {showModal && <Modal onCancel={closeModal} title='Are you sure' content='Do you want to delete this product?' onConfirm={confirmModal} />}
@@ -88,13 +137,11 @@ const CartScreen = ({ match, location, history }) => {
                       <Col md={3}>
                         <Row>
                           <Col md={12}>
-                            <FormControl style={{ fontSize: '18px' }} as='select' value={item.qty} onChange={e => dispatch(addToCart(item.product, Number(e.target.value)))}>
-                              {[...Array(item.countInStock).keys()].map(x => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              ))}
-                            </FormControl>
+                            <ContainerCounter>
+                              <ButtonCounter onClick={() => handleChangeCounter(-1,item.qty,item.countInStock,item.product)}>-</ButtonCounter>
+                              <NumberProduct >{item.qty}</NumberProduct>
+                              <ButtonCounter onClick={() => handleChangeCounter(1,item.qty,item.countInStock,item.product)}>+</ButtonCounter>
+                            </ContainerCounter>
                           </Col>
                           <Col md={12} style={{ marginTop: '1rem' }}>
                             <Row style={{ justifyContent: 'center' }}>
@@ -124,7 +171,7 @@ const CartScreen = ({ match, location, history }) => {
                   ${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
                 </TotalPrice>
               </ListGroup.Item>
-              <ListGroup.Item style={{margin:'0 auto'}}>
+              <ListGroup.Item style={{ margin: '0 auto' }}>
                 <ButtonComponent bgDark disabled={cartItems.length === 0} onClick={checkoutHandler}>
                   Proceed to CheckOut
                 </ButtonComponent>

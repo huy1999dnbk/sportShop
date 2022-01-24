@@ -1,47 +1,45 @@
 import React from 'react'
-import {Nav} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
+import { Nav } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Stepper, Step } from 'react-form-stepper';
 
-const CheckoutStep = ({step1,step2,step3,step4}) => {
+const CheckoutStep = ({ step1, step2, step3, step4 }) => {
   return (
-    <Nav className='justify-content-center mb-4'>
-      <Nav.Item>
+    <>
+
+      <Stepper stepClassName='p-3' >
         {step1 ? (
           <LinkContainer to='/login'>
-            <Nav.Link>Sign In</Nav.Link>
+            <Step children={<i className="fas fa-sign-in-alt"></i>} completed={step2} active={step1} label="Sign In" />
           </LinkContainer>
         ) : (
-          <Nav.Link disabled>Sign In</Nav.Link>
+          <Step children={<i className="fas fa-sign-in-alt"></i>} disabled={true} label="Sign In" />
         )}
-      </Nav.Item>
-      <Nav.Item>
         {step2 ? (
           <LinkContainer to='/shipping'>
-            <Nav.Link>Shipping</Nav.Link>
+            <Step children={<i className="fas fa-shipping-fast"></i>} completed={step3} active={step2} label="Shipping" />
           </LinkContainer>
         ) : (
-          <Nav.Link disabled>Shipping</Nav.Link>
+          <Step children={<i className="fas fa-shipping-fast"></i>} disabled={true} label="Shipping" />
         )}
-      </Nav.Item>
-      <Nav.Item>
         {step3 ? (
           <LinkContainer to='/payment'>
-            <Nav.Link>Payment</Nav.Link>
+            <Step children={<i className="far fa-money-bill-alt"></i>} completed={step4} active={step3} label="Payment" />
           </LinkContainer>
         ) : (
-          <Nav.Link disabled>Payment</Nav.Link>
+          <Step children={<i className="far fa-money-bill-alt"></i>} disabled={true} label="Payment" />
         )}
-      </Nav.Item>
-      <Nav.Item>
         {step4 ? (
           <LinkContainer to='/placeorder'>
-            <Nav.Link>Place Order</Nav.Link>
+            <Step children={<i className="fas fa-shopping-cart"></i>} active={step4} label="Place Order" />
           </LinkContainer>
         ) : (
-          <Nav.Link disabled>Place Order</Nav.Link>
+          <Step children={<i className="fas fa-shopping-cart"></i>} disabled={true} label="Place Order" />
         )}
-      </Nav.Item>
-    </Nav>
+
+      </Stepper>  
+    </>
+
   )
 }
 

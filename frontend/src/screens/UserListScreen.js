@@ -6,6 +6,10 @@ import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
 import { listUsers } from '../action/userAction'
 import { deleteUser } from '../action/userAction'
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import styled from 'styled-components'
 
 const TdComponent = styled.td`
@@ -56,7 +60,7 @@ const UserListScreen = ({ history }) => {
   return (
     <>
       <h1>User</h1>
-      {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
+      {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (
         <TableContainer>
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
@@ -75,16 +79,16 @@ const UserListScreen = ({ history }) => {
                   <TdComponent>{user.name}</TdComponent>
                   <TdComponent><a href={`mailto:${user.email}`}> {user.email}</a></TdComponent>
                   <TdComponent>
-                    {user.isAdmin ? (<i className='fas fa-check' style={{ color: 'green' }}></i>) : (<i className='fas fa-times' style={{ color: 'red' }}></i>)}
+                    {user.isAdmin ? (<CheckCircleRoundedIcon sx={{color:'green'}} />) : (<HighlightOffRoundedIcon sx={{color:'red'}}/>)}
                   </TdComponent>
                   <TdComponent>
                     <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-edit'></i>
+                      <Button variant='light' >
+                        <ModeEditOutlineRoundedIcon sx={{color:'blue'}} />
                       </Button>
                     </LinkContainer>
-                    <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(user._id)}>
-                      <i className='fas fa-trash'></i>
+                    <Button className='ml-2' style={{background:'white',borderColor:'green'}} onClick={() => deleteHandler(user._id)}>
+                      <DeleteForeverRoundedIcon sx={{color:'green'}} />
                     </Button>
                   </TdComponent>
                 </tr>

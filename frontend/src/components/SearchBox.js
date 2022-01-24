@@ -25,7 +25,7 @@ const SearchBox = ({history}) => {
     }
     return (
         <FormContainer onSubmit={submitHandler} inline="true">
-            <InputComponent type='text' name='q' onChange={e => setKeyword(e.target.value)} label='search' placeholder='Search Product' className='mr-sm-2 ml-sm-3'>
+            <InputComponent hiddenLabel={true} variant="filled" type='text' name='q' onChange={e => setKeyword(e.target.value)} placeholder='Search Product' className='mr-sm-2 ml-sm-3'>
             </InputComponent>
             <ButtonComponent type='submit' variant='outline-success' className='p-1'>Search</ButtonComponent>
         </FormContainer>
