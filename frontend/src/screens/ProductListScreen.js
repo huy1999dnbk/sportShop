@@ -38,7 +38,6 @@ const ProductListScreen = ({ history, match }) => {
 
     const productList = useSelector(state => state.productList)
     const { loading, error, products, page, pages } = productList
-    console.log('products',products)
     const productCreate = useSelector(state => state.productCreate)
     const { loading: loadingCreate, success: successCreate, error: errorCreate, product: createdProduct } = productCreate
 
