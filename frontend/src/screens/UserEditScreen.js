@@ -6,8 +6,8 @@ import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
 import LoaderAction from '../components/Loader/LoaderAction'
 import FormContainer from '../components/FormContainer'
-import { getUserDetails, logout, updateUser } from '../action/userAction'
-import { USER_UPDATE_RESET } from '../constants/userConstants'
+import { getUserDetails, getUserDetailsAdmin, logout, updateUser } from '../action/userAction'
+import { USER_DETAIL_RESET, USER_UPDATE_RESET } from '../constants/userConstants'
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -25,8 +25,8 @@ const UserEditScreen = ({ match, history }) => {
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
-  const userDetail = useSelector(state => state.userDetail)
-  const { loading, error, user } = userDetail
+  const userDetailAdmin = useSelector(state => state.userDetailAdmin)
+  const { loading, error, user } = userDetailAdmin
   const userUpdate = useSelector(state => state.userUpdate)
   const { loading: loadingUpdate, error: errorUpdate, success: successUpdate, user: userUpdateAdmin } = userUpdate
 
@@ -42,7 +42,7 @@ const UserEditScreen = ({ match, history }) => {
       history.push('/admin/userlist')
     } else {
       if (!user.name || user._id !== userId) {
-        dispatch(getUserDetails(userId))
+        dispatch(getUserDetailsAdmin(userId))
       } else {
         setName(user.name)
         setEmail(user.email)
