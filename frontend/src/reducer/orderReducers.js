@@ -132,6 +132,7 @@ export const orderListReducer = (state = { orders: [] }, action) => {
   switch (action.type) {
     case ORDER_LIST_REQUEST:
       return {
+        ...state,
         loading: true
       }
     case ORDER_LIST_SUCCESS:

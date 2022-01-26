@@ -6,8 +6,7 @@ import { saveShippingAddress } from '../action/cartAction'
 import CheckoutStep from '../components/CheckoutStep'
 import InputComponent from '../components/Input/InputComponent'
 import ButtonComponent from '../components/Button/ButtonComponent'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { toast } from 'react-toastify';
 const ShippingScreen = ({ history }) => {
   const cart = useSelector(state => state.cart)
@@ -29,17 +28,6 @@ const ShippingScreen = ({ history }) => {
 
   return (
     <FormContainer>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <CheckoutStep step1 step2 />
       <h3 className='text-center'>Shipping</h3>
       <Form onSubmit={submitHandler}>

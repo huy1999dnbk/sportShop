@@ -61,8 +61,9 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
     })
-
+    toast.success('Delete successfully!')
   } catch (error) {
+    toast.error('Delete fail! Please try again!')
     dispatch({
       type: PRODUCT_DELETE_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message
@@ -91,8 +92,9 @@ export const createProduct = () => async (dispatch, getState) => {
       type: PRODUCT_CREATE_SUCCESS,
       payload:data
     })
-
+    toast.success('Create product successfully!')
   } catch (error) {
+    toast.error('Create fail! Please try again')
     dispatch({
       type: PRODUCT_CREATE_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message
@@ -121,8 +123,9 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       type: PRODUCT_UPDATE_SUCCESS,
       payload:data
     })
-
+    toast.success('Update successfully!')
   } catch (error) {
+    toast.error('Update fail! Please try again')
     dispatch({
       type: PRODUCT_UPDATE_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message

@@ -17,6 +17,7 @@ const TdComponent = styled.td`
   padding:18px 5px !important;
   text-align:center;
   font-size:16px
+  vertical-align: middle !important;
 `
 const ThComponent = styled.th`
   border:none !important;

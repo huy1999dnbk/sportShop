@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Route,Link } from 'react-router-dom'
+import { Route, useLocation } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { logout } from '../action/userAction'
@@ -28,6 +28,7 @@ const HeaderContainer = styled.header`
 `
 
 const Header = () => {
+  const location = useLocation()
   const dispatch = useDispatch()
   const userLogin = useSelector(state => state.userLogin)
   const cart = useSelector(state => state.cart)
@@ -49,18 +50,22 @@ const Header = () => {
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Route render={({ history }) => <SearchBox history
-            ={history} />} />
+          {
+            !location.pathname.startsWith('/admin/') && <Route render={({ history }) => <SearchBox history
+              ={history} />} />
+          }
           <Nav className="ml-auto">
-            <LinkContainer to='/cart'>
-              <Nav.Link >
-                <i style={{ fontSize: '24px', position: 'relative',marginRight:'6px' }} className="fas fa-shopping-cart" >
-                  {cartItems.length > 0 && <TotalItem>{cartItems.length}</TotalItem>}
-                </i>
+            {
+              !location.pathname.startsWith('/admin/') && <LinkContainer to='/cart'>
+                <Nav.Link >
+                  <i style={{ fontSize: '24px', position: 'relative', marginRight: '6px' }} className="fas fa-shopping-cart" >
+                    {cartItems.length > 0 && <TotalItem>{cartItems.length}</TotalItem>}
+                  </i>
 
-                Cart
-              </Nav.Link>
-            </LinkContainer>
+                  Cart
+                </Nav.Link>
+              </LinkContainer>
+            }
             {
               userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
@@ -78,7 +83,7 @@ const Header = () => {
               )
             }
             {userInfo && userInfo.isAdmin && (
-              <LinkContainer to='/admin/userlist'>
+              <LinkContainer to='/admin/chart'>
                 <Nav.Link >Dashboard</Nav.Link>
               </LinkContainer>
             )}

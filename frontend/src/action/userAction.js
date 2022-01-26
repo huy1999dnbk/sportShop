@@ -87,7 +87,7 @@ export const register = (name, email, password,phoneNumber) => async (dispatch) 
       type: USER_LOGIN_SUCCESS,
       payload: data
     })
-
+    toast.success('Register successfully!')
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     toast.error("Register fail, try again!!");
@@ -152,10 +152,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       config
     )
 
-    // dispatch({
-    //   type: USER_UPDATE_PROFILE_SUCCESS,
-    //   payload: data
-    // })
+
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data
@@ -259,12 +256,14 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
     dispatch({
       type: USER_UPDATE_SUCCESS,
+      payload:data
     })
 
     dispatch({
       type: USER_DETAIL_SUCCESS,
       payload: data
     })
+    toast.success('Update User successfully!')
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,

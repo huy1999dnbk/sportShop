@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom'
 import styles from './sidebar.module.css'
+import InsertChartRoundedIcon from '@mui/icons-material/InsertChartRounded';
 const Menu = styled.div`
   margin:0;
   padding:20px;
@@ -36,6 +37,11 @@ const DashboardAdmin = () => {
   return (
     <Menu>
       <OrderList>
+        <ListItem className={`${pathname.startsWith('/admin/chart') && styles.active}`}>
+          <Link style={{ color: pathname.startsWith('/admin/chart') ? 'white' : 'black' }} className={styles.link} to='/admin/chart'>
+          <InsertChartRoundedIcon /> Chart
+            </Link>
+        </ListItem>
         <ListItem className={`${pathname.startsWith('/admin/user') && styles.active}`}>
           <Link style={{ color: pathname.startsWith('/admin/user') ? 'white' : 'black' }} className={styles.link} to='/admin/userlist'>
           <i className="mr-2 fas fa-user-friends"></i>User

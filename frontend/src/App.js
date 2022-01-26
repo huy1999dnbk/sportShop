@@ -21,6 +21,9 @@ import OrderListScreen from './screens/OrderListScreen'
 import Chatbot from './components/Chatbot/Chatbot'
 import DashboardAdmin from './screens/DashboardAdmin/DashboardAdmin'
 import AdminRoute from './routes/AdminRoute/AdminRoute'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ChartScreen from './screens/Chart/ChartScreen'
 import styled from 'styled-components'
 const ContainerPage = styled.div`
   padding: 0 1rem;
@@ -39,6 +42,16 @@ function App() {
 
   return (
     <Router>
+       <ToastContainer
+        position="top-right"
+        autoClose={1200}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+      />
       <Header />
       <main>
         <ContainerPage>
@@ -53,7 +66,7 @@ function App() {
             <Route path='/product/:id' component={ProductScreen} />
             <Route path='/cart/:id?' component={CartScreen} />
             <AdminRoute path='/admin/userlist' Component={UserListScreen} />
-            <AdminRoute path='/admin/userlist' Component={UserListScreen} />
+            <AdminRoute path='/admin/chart' Component={ChartScreen} />
             <AdminRoute path='/admin/user/:id/edit' Component={UserEditScreen} />
             <AdminRoute path='/admin/productlist' Component={ProductListScreen} exact />
             <AdminRoute path='/admin/productlist/:pageNumber' Component={ProductListScreen} exact />

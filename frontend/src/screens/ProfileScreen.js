@@ -4,20 +4,16 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { getUserDetails, updateUserProfile } from '../action/userAction'
 import { listMyOrders } from '../action/orderAction'
 import InputComponent from '../components/Input/InputComponent'
 import ButtonComponent from '../components/Button/ButtonComponent'
 import styled from 'styled-components'
 import { toast } from 'react-toastify';
-import { USER_DETAIL_RESET, USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+
 import LoaderAction from '../components/Loader/LoaderAction'
-const LabelInput = styled.label`
-  color:black;
-  display:block
-`
+
 
 const TitleInfo = styled.h3`
   text-align:center
@@ -29,6 +25,16 @@ const Wrapper = styled.div`
   ox-shadow: 5px 5px 7px 6px rgba(0,0,0,0.22);
   border:0;
   border-radius:10px
+`
+const ThComponent = styled.th`
+  text-align:center;
+  vertical-align:middle !important;
+  padding:16px 12px !important;
+`
+
+const TdContainer = styled.td`
+  text-align:center;
+  vertical-align:middle !important
 `
 
 const ProfileScreen = ({ location, history }) => {
@@ -88,16 +94,7 @@ const ProfileScreen = ({ location, history }) => {
   }
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-      />
+     
       <Row style={{ paddingTop: '32px' }}>
         <Col md={12}>
           <Wrapper>
@@ -158,31 +155,31 @@ const ProfileScreen = ({ location, history }) => {
               <Table striped bordered hover responsive className='table-sm'>
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>DATE</th>
-                    <th>TOTAL</th>
-                    <th>PAID</th>
-                    <th>DELIVERED</th>
-                    <th></th>
+                    <ThComponent>ID</ThComponent>
+                    <ThComponent>DATE</ThComponent>
+                    <ThComponent>TOTAL</ThComponent>
+                    <ThComponent>PAID</ThComponent>
+                    <ThComponent>DELIVERED</ThComponent>
+                    <ThComponent></ThComponent>
                   </tr>
                 </thead>
                 <tbody>
                   {orders.map(order => (
                     <tr key={order._id} style={{ background: 'white' }}>
-                      <td>{order._id}</td>
-                      <td>{order.createdAt.substring(0, 10)}</td>
-                      <td>{order.totalPrice}</td>
-                      <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
-                        <i className='fas fa-times' style={{ color: 'red' }}></i>
-                      )}</td>
-                      <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : (
-                        <i className='fas fa-times' style={{ color: 'red' }}></i>
-                      )}</td>
-                      <td>
+                      <TdContainer>{order._id}</TdContainer>
+                      <TdContainer>{order.createdAt.substring(0, 10)}</TdContainer>
+                      <TdContainer>{order.totalPrice}</TdContainer>
+                      <TdContainer>{order.isPaid ? order.paidAt.substring(0, 10) : (
+                        <HighlightOffRoundedIcon sx={{color:'red'}}/>
+                      )}</TdContainer>
+                      <TdContainer>{order.isDelivered ? order.deliveredAt.substring(0, 10) : (
+                        <HighlightOffRoundedIcon sx={{color:'red'}}/>
+                      )}</TdContainer>
+                      <TdContainer>
                         <LinkContainer to={`/order/${order._id}`}>
                           <Button className='btn-sm' variant='light'>Details</Button>
                         </LinkContainer>
-                      </td>
+                      </TdContainer>
                     </tr>
                   ))}
                 </tbody>

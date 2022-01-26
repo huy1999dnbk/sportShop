@@ -7,12 +7,13 @@ import Loader from '../components/Loader/Loader'
 import { listOrders } from '../action/orderAction'
 import { ORDER_DETAILS_RESET } from '../constants/orderConstant'
 import styled from 'styled-components'
-
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 const TdComponent = styled.td`
   border:none !important;
   padding:18px 5px !important;
   text-align:center;
-  font-size:16px
+  font-size:16px;
+  vertical-align: middle !important;
 `
 const ThComponent = styled.th`
   border:none !important;
@@ -73,10 +74,10 @@ const OrderListScreen = ({ history }) => {
                   <TdComponent>{order.createdAt.substring(0, 10)}</TdComponent>
                   <TdComponent>${order.totalPrice}</TdComponent>
                   <TdComponent>
-                    {order.isPaid ? (order.paidAt.substring(0, 10)) : (<i className='fas fa-times' style={{ color: 'red' }}></i>)}
+                    {order.isPaid ? (order.paidAt.substring(0, 10)) : (<HighlightOffRoundedIcon sx={{color:'red'}}/>)}
                   </TdComponent>
                   <TdComponent>
-                    {order.isDelivered ? (order.deliveredAt.substring(0, 10)) : (<i className='fas fa-times' style={{ color: 'red' }}></i>)}
+                    {order.isDelivered ? (order.deliveredAt.substring(0, 10)) : (<HighlightOffRoundedIcon sx={{color:'red'}}/>)}
                   </TdComponent>
                   <TdComponent>
                     <LinkContainer to={`/order/${order._id}`}>

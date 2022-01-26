@@ -1,5 +1,6 @@
 import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DELIVER_FAIL, ORDER_DELIVER_REQUEST, ORDER_DELIVER_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_MY_FAIL, ORDER_LIST_MY_REQUEST, ORDER_LIST_MY_SUCCESS, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS,ORDER_DETAILS_RESET } from '../constants/orderConstant'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -26,8 +27,9 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: ORDER_CREATE_SUCCESS,
       payload: data
     })
-
+    toast.success('Success')
   } catch (error) {
+    toast.error('Order create fail!!!')
     dispatch({
       type: ORDER_CREATE_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message
@@ -87,8 +89,9 @@ export const payOrder = (orderId, paymentResult) => async (dispatch, getState) =
       type: ORDER_PAY_SUCCESS,
       payload: data
     })
-
+    toast.success('Pay order successfully!')
   } catch (error) {
+    toast.error('Pay order fail!! Please try again')
     dispatch({
       type: ORDER_PAY_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message
@@ -116,8 +119,9 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
       type: ORDER_DELIVER_SUCCESS,
       payload: data
     })
-
+    toast.success('Delivered success!!')
   } catch (error) {
+    toast.error('Delivered fail!!!')
     dispatch({
       type: ORDER_DELIVER_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message

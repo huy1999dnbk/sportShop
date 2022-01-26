@@ -4,8 +4,6 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import FormContainer from '../components/FormContainer'
 import { register } from '../action/userAction'
 import styled from 'styled-components'
@@ -125,17 +123,6 @@ const RegisterScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <ContainerPage>
         <TitlePage>Sign Up</TitlePage>
         {message && <Message variant='error'>{message}</Message>}

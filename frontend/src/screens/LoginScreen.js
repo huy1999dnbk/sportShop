@@ -4,8 +4,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import { login } from '../action/userAction'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import FormContainer from '../components/FormContainer'
 import Loader from '../components/Loader/Loader'
 import InputComponent from '../components/Input/InputComponent'
@@ -76,17 +75,6 @@ const LoginScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <ContainerPage>
         <TitleLogin>Sign In</TitleLogin>
         {loading && <LoaderAction />}

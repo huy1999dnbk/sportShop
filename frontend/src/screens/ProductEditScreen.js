@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Button } from "react-bootstrap"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Form, Row } from "react-bootstrap"
+import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
@@ -13,6 +12,7 @@ import { PRODUCT_DETAIL_RESET, PRODUCT_UPDATE_RESET } from '../constants/product
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../firebase'
 import InputComponent from '../components/Input/InputComponent'
+import ButtonComponent from '../components/Button/ButtonComponent'
 const ProductEditScreen = ({ match, history }) => {
     const successAlert = () => toast("Upload success to firebase!");
     const failAlert = () => toast("Upload to firebase fail!")
@@ -59,6 +59,14 @@ const ProductEditScreen = ({ match, history }) => {
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]
+        if (!file) {
+            return
+        }
+        const fileType = file['type']
+        const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+        if (!validImageTypes.includes(fileType)) {
+            return toast.error('Your file upload must be an image!!!')
+        }
         const fileName = new Date().getTime() + file.name
         const storage = getStorage(app)
         const storageRef = ref(storage, fileName)
@@ -93,6 +101,9 @@ const ProductEditScreen = ({ match, history }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
+        if (name === '' || Number(price) < 1 || image === '' || brand === '' || category === '' || Number(countInStock) < 0 || description === '') {
+            return toast.error('Product information is invalid!Please check again!')
+        }
         dispatch(updateProduct({
             _id: productId,
             name, price, image, brand, category, description, countInStock
@@ -101,17 +112,6 @@ const ProductEditScreen = ({ match, history }) => {
 
     return (
         <>
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
             <Link to='/admin/productlist' className='btn btn-light my-3'>
                 Go Back
             </Link>
@@ -122,49 +122,54 @@ const ProductEditScreen = ({ match, history }) => {
                 {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (
                     <Form onSubmit={submitHandler}>
                         <Form.Group className='mt-3' controlId='name'>
-                        
+
                             <InputComponent className='w-100' label='name' type='name' placeholder='Enter name' value={name} onChange={e => setName(e.target.value)}>
 
                             </InputComponent>
                         </Form.Group>
                         <Form.Group className='mt-3' controlId='price'>
-                          
+
                             <InputComponent className='w-100' label='Price' type='number' placeholder='Enter price' value={price} onChange={e => setPrice(e.target.value)}>
 
                             </InputComponent>
                         </Form.Group>
                         <Form.Group className='mt-3' controlId='image '>
-                           
-                            <InputComponent className='w-100' label='Image' type='text' placeholder='Enter image url' value={image} onChange={e => setImage(e.target.value)}>
+
+                            <InputComponent className='w-100' label='Image' type='text' placeholder='Enter image url' value={image} onChange={e => setImage(e.target.value)} disabled={true}>
                             </InputComponent>
                             <InputComponent variant='filled' className='w-100 mt-3' type='file' custom="true" onChange={uploadFileHandler}></InputComponent>
                             {uploading && <LoaderAction />}
                         </Form.Group>
                         <Form.Group className='mt-3' controlId='brand '>
-                          
+
                             <InputComponent className='w-100' label='brand' type='text' placeholder='Enter brand' value={brand} onChange={e => setBrand(e.target.value)}>
 
                             </InputComponent>
                         </Form.Group>
                         <Form.Group className='mt-3' controlId='countInStock'>
-                         
+
                             <InputComponent className='w-100' label='Count in stock' type='number' placeholder='Enter countInStock' value={countInStock} onChange={e => setCountInStock(e.target.value)}>
 
                             </InputComponent>
                         </Form.Group>
                         <Form.Group className='mt-3' controlId='category'>
-                           
+
                             <InputComponent className='w-100' label='category' type='text' placeholder='Enter category' value={category} onChange={e => setCategory(e.target.value)}>
 
                             </InputComponent>
                         </Form.Group>
                         <Form.Group className='mt-3' controlId='description'>
-                         
+
                             <InputComponent className='w-100' label='description' type='text' placeholder='Enter description' value={description} onChange={e => setDescription(e.target.value)}>
 
                             </InputComponent>
                         </Form.Group>
-                        <Button type='submit' variant='primary'>Update</Button>
+                        <Row className='mt-4' style={{ justifyContent: 'center' }}>
+                         
+                                <ButtonComponent type='submit' variant='primary'>Update</ButtonComponent>
+                           
+                        </Row>
+
                     </Form>
                 )}
             </FormContainer>

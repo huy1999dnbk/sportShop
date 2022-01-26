@@ -131,12 +131,14 @@ const updateUser = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
+    user.phoneNumber = req.body.phoneNumber || user.phoneNumber
     user.isAdmin = req.body.isAdmin
     const updatedUser = await user.save() 
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
+      phoneNumber:updatedUser.phoneNumber,
       isAdmin: updatedUser.isAdmin,
     })
   } else {

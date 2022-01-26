@@ -16,6 +16,15 @@ const LastestProduct = ({keyword,pageNumber}) => {
     {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (<>
       {!keyword && <h4>Latest product</h4>}
       <Row>
+        {products.length === 0 && (
+          <>
+            <Col className='pt-5'>
+              <h1>Oops</h1>
+              <h4>No result for {keyword}</h4>
+              <span>Try checking your spelling or use more general terms</span>
+            </Col>
+          </>
+        )}
         {products.map(product => (
           <Col key={product._id} className='mb-3' xs={12} sm={6} md={4} lg={3}>
             <Product product={product} />

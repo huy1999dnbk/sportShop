@@ -41,7 +41,8 @@ const CardPrice = styled.div`
 
 const PriceInfo = styled.span`
   color:black;
-  font-size:16px
+  font-size:16px;
+  padding-top: 5px
 `
 const Product = ({ product }) => {
   return (

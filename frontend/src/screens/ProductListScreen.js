@@ -15,9 +15,10 @@ import styled from 'styled-components'
 
 const TdComponent = styled.td`
   border:none !important;
-  padding:18px 5px !important;
+  padding:16px 5px;
   text-align:center;
-  font-size:16px
+  font-size:16px;
+  vertical-align: middle !important;
 `
 const ThComponent = styled.th`
   border:none !important;
@@ -29,6 +30,14 @@ const TableContainer = styled.div`
   border-radius:10px;
   -webkit-box-shadow: 2px 6px 15px -1px #000000; 
   box-shadow: 2px 6px 15px -1px #000000;
+`
+
+const AvatarProd = styled.img`
+    display:block;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    border:none;
 `
 const ProductListScreen = ({ history, match }) => {
 
@@ -47,11 +56,11 @@ const ProductListScreen = ({ history, match }) => {
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
 
-   
+
 
     useEffect(() => {
         dispatch({ type: PRODUCT_CREATE_RESET })
-        if (!userInfo.isAdmin) {
+        if (!userInfo) {
             history.push('/login')
         }
         if (successCreate) {
@@ -95,7 +104,7 @@ const ProductListScreen = ({ history, match }) => {
                         <Table striped bordered hover responsive className='table-sm'>
                             <thead>
                                 <tr>
-
+                                    <ThComponent>Image</ThComponent>
                                     <ThComponent>NAME</ThComponent>
                                     <ThComponent>PRICE</ThComponent>
                                     <ThComponent>CATEGORY</ThComponent>
@@ -106,7 +115,15 @@ const ProductListScreen = ({ history, match }) => {
                             <tbody>
                                 {products.map(product => (
                                     <tr key={product._id} style={{ background: 'white' }}>
-
+                                        <TdComponent style={{padding:'5px 0px 5px 16px'}}>
+                                            <AvatarProd
+                                                alt={product.name}
+                                                src={product.image}
+                                                onError={e => {
+                                                    e.target.src = '/images/sample.jpg'
+                                                }}
+                                            />
+                                        </TdComponent>
                                         <TdComponent style={{ maxWidth: '400px' }}>{product.name.length > 40 ? product.name.slice(0, 40) + '...' : product.name}</TdComponent>
                                         <TdComponent>{product.price}</TdComponent>
                                         <TdComponent>

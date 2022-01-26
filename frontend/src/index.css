@@ -121,3 +121,10 @@ main {
 .page-item{
   list-style: none;
 }
+.dropdown-item:focus, .dropdown-item:hover{
+  color: white !important;
+  background-color: black !important;
+}
+.dropdown-item.active, .dropdown-item:active{
+  background-color: black !important;
+}

@@ -10,8 +10,6 @@ import { PRODUCT_CREATE_REVIEW_RESET } from '../../constants/productConstants'
 import Meta from '../../components/Meta'
 import ButtonComponent from '../../components/Button/ButtonComponent'
 import styles from './productscreen.module.css'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import InputComponent from '../../components/Input/InputComponent'
 import styled from 'styled-components'
 const ContainerCounter = styled.div`
@@ -105,16 +103,6 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={2500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-      />
       <Meta title={product.name} />
       <Link className='btn btn-light my-3' to='/'>
         Go back
