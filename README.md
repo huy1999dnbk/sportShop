@@ -6,7 +6,7 @@ Link Deploy Project:  https://sportaccessoryapp.herokuapp.com/
 This ecommerce project include some basic feature such as:
 - Shopping cart
 - Comment review product
-- payment with paypal (sandbox with fake money)
+- payment with paypal (sandbox with fake money, yellow-button paypal in this project)
   + using this account to pay:
    . username:sb-wtcwx8918289@personal.example.com
    . password: yHwh+4-y
