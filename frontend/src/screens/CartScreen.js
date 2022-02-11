@@ -69,6 +69,11 @@ const CartScreen = ({ match, location, history }) => {
     if (productId) {
       dispatch(addToCart(productId, qty))
     }
+    return () => {
+      if (history.action === 'POP') {
+        window.location.reload()
+      }
+    }
   }, [productId, qty])
 
 

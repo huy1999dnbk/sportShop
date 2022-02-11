@@ -73,6 +73,11 @@ const ProfileScreen = ({ location, history }) => {
         setPhoneNumber(user.phoneNumber)
       }
     }
+    return () => {
+      if(history.action === 'POP'){
+        window.location.reload()
+      }
+    }
   }, [dispatch, history, userInfo, user, orders])
 
   const submitHandler = (e) => {

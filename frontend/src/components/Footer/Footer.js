@@ -21,8 +21,8 @@ const Footer = () => {
                 <h5>Information</h5>
               </Nav.Link>
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/">Cart</Nav.Link>
-              <Nav.Link href="/">My account</Nav.Link>
+              <Nav.Link href="/cart">Cart</Nav.Link>
+              <Nav.Link disabled href="/">My account</Nav.Link>
               <Nav.Link href="/">Policy</Nav.Link>
             </Nav>
           </Col>

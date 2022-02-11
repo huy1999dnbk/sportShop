@@ -54,6 +54,11 @@ const ProductEditScreen = ({ match, history }) => {
                 setDescription(product.description)
             }
         }
+        return () => {
+            if(history.action === 'POP'){
+                window.location.reload()
+              }
+        }
     }, [dispatch, history, product, productId, successUpdate])
 
 

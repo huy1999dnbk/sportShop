@@ -1,4 +1,4 @@
-import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DELIVER_FAIL, ORDER_DELIVER_REQUEST, ORDER_DELIVER_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_MY_FAIL, ORDER_LIST_MY_REQUEST, ORDER_LIST_MY_SUCCESS, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS,ORDER_DETAILS_RESET } from '../constants/orderConstant'
+import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DELIVER_FAIL, ORDER_DELIVER_REQUEST, ORDER_DELIVER_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_MY_FAIL, ORDER_LIST_MY_REQUEST, ORDER_LIST_MY_SUCCESS, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS,ORDER_DETAILS_RESET, GET_ALL_ORDER_FAIL, GET_ALL_ORDER_SUCCESS, GET_ALL_ORDER_REQUEST } from '../constants/orderConstant'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -157,7 +157,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
     })
   }
 }
-export const listOrders = () => async (dispatch, getState) => {
+export const listOrders = (pageNumber = '') => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_LIST_REQUEST
@@ -171,7 +171,7 @@ export const listOrders = () => async (dispatch, getState) => {
       }
     }
 
-    const { data } = await axios.get(`/api/orders`, config)
+    const { data } = await axios.get(`/api/orders?pageNumber=${pageNumber}`, config)
 
     dispatch({
       type: ORDER_LIST_SUCCESS,
@@ -181,6 +181,34 @@ export const listOrders = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_LIST_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message
+    })
+  }
+}
+export const listAllOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: GET_ALL_ORDER_REQUEST
+    })
+
+    const { userLogin: { userInfo } } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`
+      }
+    }
+
+    const { data } = await axios.get(`/api/orders/allorders`, config)
+
+    dispatch({
+      type: GET_ALL_ORDER_SUCCESS,
+      payload: data
+    })
+
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_ORDER_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message
     })
   }

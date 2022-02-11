@@ -15,14 +15,16 @@ const DashBoard = styled.div`
 `
 const AdminRoute = ({ Component, ...restRoute }) => {
   const history = useHistory()
+ 
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
-
+ 
   useEffect(() => {
     if(!userInfo) {
       history.replace('/')
     }
   },[userInfo])
+
 
   return <Route {...restRoute} render={(propsRoute => (
     <WrappepContainer>

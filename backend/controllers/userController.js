@@ -96,9 +96,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 })
 
 const getUser = asyncHandler(async (req, res) => {
-  const users = await User.find({})
-  res.json(users)
-  
+  const pageSize = 10
+  const page = Number(req.query.pageNumber) || 1
+  const count = await User.countDocuments({})
+  const users = await User.find({}).limit(pageSize).skip(pageSize * (page - 1))
+  res.json({users,page,pages:Math.ceil(count/pageSize)})
+
 })
 
 

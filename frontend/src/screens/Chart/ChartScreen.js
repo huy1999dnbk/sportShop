@@ -10,7 +10,7 @@ import {
   Title, Tooltip, Legend
 } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
-import { listOrders } from '../../action/orderAction';
+import { listAllOrders, listOrders } from '../../action/orderAction';
 import styled from 'styled-components'
 import { listTopProducts } from '../../action/productAction';
 const TitleChart = styled.h4`
@@ -42,8 +42,8 @@ const ChartScreen = ({ history }) => {
   const dispatch = useDispatch()
   const [dataChart, setDataChart] = useState({})
   const [dataChartProduct, setDataChartProduct] = useState({})
-  const orderList = useSelector(state => state.orderList)
-  const { loading, orders, error } = orderList
+  const allOrdersList = useSelector(state => state.allOrdersList)
+  const { loading, orders, error } = allOrdersList
   const productTopRated = useSelector(state => state.productTopRated)
   const { loading: loadingTopProduct, error: errorTopProduct, products } = productTopRated
   const userLogin = useSelector(state => state.userLogin)
@@ -55,7 +55,7 @@ const ChartScreen = ({ history }) => {
       history.push('/')
     }
     if (userInfo && userInfo.isAdmin && orders.length === 0) {
-      dispatch(listOrders())
+      dispatch(listAllOrders())
     }
     if (userInfo && userInfo.isAdmin && products.length === 0) {
       dispatch(listTopProducts(8))

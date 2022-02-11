@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useLocation } from 'react-router-dom'
 
 import Rating from '../Rating'
 import styled from 'styled-components';
@@ -45,9 +45,10 @@ const PriceInfo = styled.span`
   padding-top: 5px
 `
 const Product = ({ product }) => {
+  const location = useLocation()
   return (
     <>
-      <Link style={{textDecoration:'none'}} to={`/product/${product._id}`} >
+      <Link style={{textDecoration:'none'}} to={{pathname:`/product/${product._id}`,state:{prevPath:location.pathname}}} >
         <CardContainer>
           <CardImage src={product.image} alt={product.name} />
           <CardContent>

@@ -45,6 +45,7 @@ const NumberProduct = styled.span`
 `
 
 const ProductScreen = ({ history, match }) => {
+  
   const [qty, setQty] = useState(1)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
@@ -67,7 +68,12 @@ const ProductScreen = ({ history, match }) => {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
     dispatch(listProductDetail(match.params.id))
-  }, [dispatch, match, successProductReview])
+    return () => {
+      if (history.action === 'POP') {
+        window.location.reload()
+      }
+    }
+  }, [dispatch, match, successProductReview, history])
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`)
@@ -86,17 +92,17 @@ const ProductScreen = ({ history, match }) => {
   }
 
   const handleChangeCounter = (operator) => {
-    if(operator === -1 && qty === 1) {
+    if (operator === -1 && qty === 1) {
       return;
     }
-    if(operator === -1) {
+    if (operator === -1) {
       setQty(prevState => prevState - 1)
-    } 
-    
-    if(operator === 1 && Number(product.countInStock) === qty) {
+    }
+
+    if (operator === 1 && Number(product.countInStock) === qty) {
       return;
-    } 
-    if(operator === 1){
+    }
+    if (operator === 1) {
       setQty(prevState => prevState + 1)
     }
   }
@@ -111,7 +117,7 @@ const ProductScreen = ({ history, match }) => {
 
         <Row>
           <Col md={6}>
-            <Image src={product.image} alt={product.name} style={{ width: '100%', height: '100%',maxHeight:'700px' }} />
+            <Image src={product.image} alt={product.name} style={{ width: '100%', height: '100%', maxHeight: '700px' }} />
           </Col>
           <Col md={6}>
             <p className={styles.nameProd}>{product.name}</p>
@@ -125,7 +131,7 @@ const ProductScreen = ({ history, match }) => {
                   <Col md={5}>
                     <ContainerCounter>
                       <ButtonCounter onClick={() => handleChangeCounter(-1)}>-</ButtonCounter>
-                      <NumberProduct >{qty}</NumberProduct> 
+                      <NumberProduct >{qty}</NumberProduct>
                       <ButtonCounter onClick={() => handleChangeCounter(1)}>+</ButtonCounter>
                     </ContainerCounter>
                   </Col>

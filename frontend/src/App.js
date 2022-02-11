@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer/Footer'
@@ -30,8 +30,9 @@ const ContainerPage = styled.div`
 `
 
 function App() {
-  const [openMess, setOpenMess] = useState(false)
 
+  const [openMess, setOpenMess] = useState(false)
+  
   const openMessage = () => {
     setOpenMess(true)
   }
@@ -39,7 +40,7 @@ function App() {
   const closeMessage = () => {
     setOpenMess(false)
   }
-
+  
   return (
     <Router>
        <ToastContainer
@@ -65,13 +66,16 @@ function App() {
             <Route path='/profile' component={ProfileScreen} />
             <Route path='/product/:id' component={ProductScreen} />
             <Route path='/cart/:id?' component={CartScreen} />
-            <AdminRoute path='/admin/userlist' Component={UserListScreen} />
+            <AdminRoute path='/admin' Component={ChartScreen} exact/>
+            <AdminRoute path='/admin/userlist' Component={UserListScreen} exact />
+            <AdminRoute path='/admin/userlist/:pageNumber' Component={UserListScreen} exact />
             <AdminRoute path='/admin/chart' Component={ChartScreen} />
             <AdminRoute path='/admin/user/:id/edit' Component={UserEditScreen} />
             <AdminRoute path='/admin/productlist' Component={ProductListScreen} exact />
             <AdminRoute path='/admin/productlist/:pageNumber' Component={ProductListScreen} exact />
             <AdminRoute path='/admin/product/:id/edit' Component={ProductEditScreen} />
-            <AdminRoute path='/admin/orderlist' Component={OrderListScreen} />
+            <AdminRoute path='/admin/orderlist' Component={OrderListScreen} exact />
+            <AdminRoute path='/admin/orderlist/:pageNumber' Component={OrderListScreen} exact />
             <Route path='/search/:keyword' component={HomeScreen} exact />
             <Route path='/page/:pageNumber' component={HomeScreen} exact />
             <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact />

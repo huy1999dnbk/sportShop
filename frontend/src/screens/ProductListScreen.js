@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import ButtonComponent from '../components/Button/ButtonComponent'
@@ -11,6 +11,7 @@ import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 import Paginate from '../components/Paginate'
 import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import Modal from '../components/Modal/Modal'
 import styled from 'styled-components'
 
 const TdComponent = styled.td`
@@ -40,11 +41,10 @@ const AvatarProd = styled.img`
     border:none;
 `
 const ProductListScreen = ({ history, match }) => {
-
-
     const pageNumber = match.params.pageNumber || 1
     const dispatch = useDispatch()
-
+    const [showModal,setShowModal] = useState(false)
+    const [idProductDelete,setIdProductDelete] = useState('')
     const productList = useSelector(state => state.productList)
     const { loading, error, products, page, pages } = productList
     const productCreate = useSelector(state => state.productCreate)
@@ -56,7 +56,15 @@ const ProductListScreen = ({ history, match }) => {
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
 
-
+    useEffect(() => {
+        localStorage.setItem('pageNum',JSON.stringify(pageNumber))
+        return () => {
+            if(history.action === 'POP'){
+                window.location.reload()
+              }
+            localStorage.removeItem('pageNum')
+          }
+      },[pageNumber])
 
     useEffect(() => {
         dispatch({ type: PRODUCT_CREATE_RESET })
@@ -71,19 +79,26 @@ const ProductListScreen = ({ history, match }) => {
     }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct, pageNumber])
 
 
-    const deleteHandler = (id) => {
-        if (window.confirm('Are you sure you want to delete this user?')) {
-            dispatch(deleteProduct(id))
-        }
-    }
+    
 
     const createProductHandler = () => {
         dispatch(createProduct())
     }
 
+    const closeModal = () => {
+        setIdProductDelete('')
+        setShowModal(false)
+    }
+
+    const confirmModal = () => {
+        dispatch(deleteProduct(idProductDelete))
+        setIdProductDelete('')
+        setShowModal(false)
+    }
 
     return (
         <>
+         {showModal && <Modal onCancel={closeModal} title='Are you sure' content='Do you want to delete this product?' onConfirm={confirmModal} />}
             <Row className='align-items-center'>
                 <Col>
                     <h1>Products</h1>
@@ -138,7 +153,10 @@ const ProductListScreen = ({ history, match }) => {
                                                     <ModeEditOutlineRoundedIcon sx={{ color: 'blue' }} />
                                                 </Button>
                                             </LinkContainer>
-                                            <Button className='ml-2' style={{ background: 'white', borderColor: 'green' }} onClick={() => deleteHandler(product._id)}>
+                                            <Button className='ml-2' style={{ background: 'white', borderColor: 'green' }} onClick={() => {
+                                                setShowModal(true)
+                                                setIdProductDelete(product._id)
+                                            }}>
                                                 <DeleteForeverRoundedIcon sx={{ color: 'green' }} />
                                             </Button>
                                         </TdComponent>
@@ -147,7 +165,6 @@ const ProductListScreen = ({ history, match }) => {
                             </tbody>
                         </Table>
                     </TableContainer>
-
                 </>
             )}
             <Paginate page={page} pages={pages} isAdmin={true} productList={products} />

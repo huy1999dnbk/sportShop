@@ -1,4 +1,4 @@
-import { USER_DETAIL_FAIL, USER_DETAIL_REQUEST, USER_DETAIL_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_DETAIL_RESET, USER_LIST_FAIL, USER_LIST_SUCCESS, USER_LIST_REQUEST, USER_LIST_RESET, USER_DELETE_FAIL, USER_DELETE_SUCCESS, USER_DELETE_REQUEST, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_PROFILE_RESET, USER_DETAIL_ADMIN_FAIL, USER_DETAIL_ADMIN_SUCCESS, USER_DETAIL_ADMIN_REQUEST } from "../constants/userConstants"
+import { USER_DETAIL_FAIL, USER_DETAIL_REQUEST, USER_DETAIL_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_DETAIL_RESET, USER_LIST_FAIL, USER_LIST_SUCCESS, USER_LIST_REQUEST, USER_LIST_RESET, USER_DELETE_FAIL, USER_DELETE_SUCCESS, USER_DELETE_REQUEST, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_PROFILE_RESET, USER_DETAIL_ADMIN_FAIL, USER_DETAIL_ADMIN_SUCCESS, USER_DETAIL_ADMIN_REQUEST,USER_REGISTER_RESET,USER_DETAIL_ADMIN_RESET } from "../constants/userConstants"
 import { ORDER_DETAILS_RESET, ORDER_LIST_MY_RESET } from "../constants/orderConstant"
 import { CART_RESET } from '../constants/cartConstant'
 import axios from 'axios'
@@ -45,6 +45,9 @@ export const logout = () => (dispatch) => {
   dispatch({ type: ORDER_DETAILS_RESET })
   dispatch({
     type: USER_LOGOUT
+  })
+  dispatch({
+    type:USER_REGISTER_RESET
   })
   dispatch({
     type: USER_DETAIL_RESET
@@ -204,7 +207,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   }
 }
 
-export const listUsers = () => async (dispatch, getState) => {
+export const listUsers = (pageNumber = '') => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_LIST_REQUEST
@@ -219,7 +222,7 @@ export const listUsers = () => async (dispatch, getState) => {
     }
 
     const { data } = await axios.get(
-      `/api/users`,
+      `/api/users?pageNumber=${pageNumber}`,
       config
     )
 
@@ -258,7 +261,9 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     dispatch({
       type: USER_DELETE_SUCCESS,
     })
+    toast.success('Delete successfully!')
   } catch (error) {
+    toast.error('Delete faile! Try again')
     dispatch({
       type: USER_DELETE_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message
@@ -291,6 +296,9 @@ export const updateUser = (user) => async (dispatch, getState) => {
       payload:data
     })
 
+    dispatch({
+      type: USER_DETAIL_ADMIN_RESET
+    })
 
     toast.success('Update User successfully!')
   } catch (error) {

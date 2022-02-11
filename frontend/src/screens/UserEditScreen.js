@@ -50,7 +50,11 @@ const UserEditScreen = ({ match, history }) => {
         setIsAdmin(user.isAdmin)
       }
     }
-
+    return () => {
+      if(history.action === 'POP'){
+          window.location.reload()
+        }
+  }
   }, [dispatch, userId, user, successUpdate])
 
 

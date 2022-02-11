@@ -12,7 +12,8 @@ import Product from '../components/Product/Product'
 import Loader from '../components/Loader/Loader'
 import ProductRecommend from '../components/Product/ProductRecommend'
 import LastestProduct from '../components/LastedProduct/LastestProduct'
-const HomeScreen = ({ match }) => {
+const HomeScreen = ({ history, match }) => {
+  
   const keyword = match.params.keyword
   const pageNumber = match.params.pageNumber || 1
   const dispatch = useDispatch()
@@ -26,6 +27,16 @@ const HomeScreen = ({ match }) => {
   const { loading: loadingTopRecommend, error: errorTopRecommend, products: productsTopRecommend } = productTopRecommend
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
+
+  useEffect(() => {
+    localStorage.setItem('pageNum', JSON.stringify(pageNumber))
+    return () => {
+      if (history.action === 'POP') {
+        window.location.reload()
+      }
+      localStorage.removeItem('pageNum')
+    }
+  }, [pageNumber])
 
   useEffect(() => {
     dispatch(listTrendProducts())
@@ -81,7 +92,7 @@ const HomeScreen = ({ match }) => {
         </>
       )}
       <LastestProduct keyword={keyword} pageNumber={pageNumber} />
-   
+
       <Paginate productList={products} pages={pages} page={page} keyword={keyword ? keyword : ''} />
 
     </>

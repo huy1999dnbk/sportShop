@@ -4,6 +4,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
+import LoaderAction from '../components/Loader/LoaderAction'
 import FormContainer from '../components/FormContainer'
 import { register } from '../action/userAction'
 import styled from 'styled-components'
@@ -51,7 +52,7 @@ const RegisterScreen = ({ location, history }) => {
   const userRegister = useSelector(state => state.userRegister)
   const { loading, error, userInfo } = userRegister
   const redirect = location.search ? location.search.split('=')[1] : '/'
-
+  
   useEffect(() => {
     if (userInfo) {
       history.push(redirect)
@@ -127,7 +128,7 @@ const RegisterScreen = ({ location, history }) => {
         <TitlePage>Sign Up</TitlePage>
         {message && <Message variant='error'>{message}</Message>}
         {error && <Message variant='error'>{error}</Message>}
-        {loading && <Loader />}
+        {loading && <LoaderAction />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
 
