@@ -59,6 +59,13 @@ const ProfileScreen = ({ location, history }) => {
   const orderListMy = useSelector(state => state.orderListMy)
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
 
+  useEffect(() => {
+    return () => {
+      if(history.action === 'POP'){
+        history.replace('/')
+      }
+    }
+  },[history])
 
   useEffect(() => {
     if (!userInfo) {
@@ -73,11 +80,7 @@ const ProfileScreen = ({ location, history }) => {
         setPhoneNumber(user.phoneNumber)
       }
     }
-    return () => {
-      if(history.action === 'POP'){
-        window.location.reload()
-      }
-    }
+   
   }, [dispatch, history, userInfo, user, orders])
 
   const submitHandler = (e) => {

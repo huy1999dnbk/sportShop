@@ -1,4 +1,4 @@
-import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DELIVER_FAIL, ORDER_DELIVER_REQUEST, ORDER_DELIVER_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_MY_FAIL, ORDER_LIST_MY_REQUEST, ORDER_LIST_MY_SUCCESS, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS,ORDER_DETAILS_RESET, GET_ALL_ORDER_FAIL, GET_ALL_ORDER_SUCCESS, GET_ALL_ORDER_REQUEST } from '../constants/orderConstant'
+import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DELIVER_FAIL, ORDER_DELIVER_REQUEST, ORDER_DELIVER_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_MY_FAIL, ORDER_LIST_MY_REQUEST, ORDER_LIST_MY_SUCCESS, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS,ORDER_DETAILS_RESET, GET_ALL_ORDER_FAIL, GET_ALL_ORDER_SUCCESS, GET_ALL_ORDER_REQUEST,ORDER_LIST_MY_RESET } from '../constants/orderConstant'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -27,6 +27,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: ORDER_CREATE_SUCCESS,
       payload: data
     })
+    dispatch(listMyOrders())
     toast.success('Success')
   } catch (error) {
     toast.error('Order create fail!!!')
@@ -89,6 +90,7 @@ export const payOrder = (orderId, paymentResult) => async (dispatch, getState) =
       type: ORDER_PAY_SUCCESS,
       payload: data
     })
+    dispatch(listMyOrders())
     toast.success('Pay order successfully!')
   } catch (error) {
     toast.error('Pay order fail!! Please try again')
@@ -119,6 +121,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
       type: ORDER_DELIVER_SUCCESS,
       payload: data
     })
+    dispatch(listMyOrders())
     toast.success('Delivered success!!')
   } catch (error) {
     toast.error('Delivered fail!!!')

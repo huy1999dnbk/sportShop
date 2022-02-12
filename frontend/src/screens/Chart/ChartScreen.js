@@ -49,6 +49,13 @@ const ChartScreen = ({ history }) => {
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
+  useEffect(() => {
+    return () => {
+      if(history.action === 'POP'){
+        history.replace('/')
+      }
+    }
+  },[history])
 
   useEffect(() => {
     if (userInfo && !userInfo.isAdmin) {
