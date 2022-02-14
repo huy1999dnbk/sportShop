@@ -26,7 +26,7 @@ const LastestProduct = ({keyword,pageNumber}) => {
           </>
         )}
         {products.map(product => (
-          <Col key={product._id} className='mb-3' xs={12} sm={6} md={4} lg={3}>
+          <Col key={product._id} className='mb-3 p-0' xs={12} sm={6} md={4} lg={3}>
             <Product product={product} />
           </Col>
         ))}

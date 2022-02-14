@@ -140,7 +140,7 @@ const ProductListScreen = ({ history, match }) => {
                                             />
                                         </TdComponent>
                                         <TdComponent style={{ maxWidth: '400px' }}>{product.name.length > 40 ? product.name.slice(0, 40) + '...' : product.name}</TdComponent>
-                                        <TdComponent>{product.price}</TdComponent>
+                                        <TdComponent>${product.price}</TdComponent>
                                         <TdComponent>
                                             {product.category}
                                         </TdComponent>

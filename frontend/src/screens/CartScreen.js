@@ -93,7 +93,7 @@ const CartScreen = ({ match, location, history }) => {
     setProductDelete('')
   }
 
-  const handleChangeCounter = (operator,productBuy,productStock,productId) => {
+  const handleChangeCounter = (operator, productBuy, productStock, productId) => {
     if (operator === -1 && productBuy === 1) {
       setProductDelete(productId)
       setShowModal(true)
@@ -116,6 +116,11 @@ const CartScreen = ({ match, location, history }) => {
       {showModal && <Modal onCancel={closeModal} title='Are you sure' content='Do you want to delete this product?' onConfirm={confirmModal} />}
       <Row style={{ paddingTop: '16px' }}>
         <Col md={8} >
+          {cartItems.length > 0 && (
+            <Link className='btn btn-light my-3' to='/'>
+              Go back
+            </Link>
+          )}
           <h2 style={{ textAlign: 'center', marginBottom: '32px' }}>Your cart</h2>
           {
             cartItems.length === 0 ? (
@@ -126,7 +131,7 @@ const CartScreen = ({ match, location, history }) => {
                   cartItems.map((item, index) => (
                     <Row key={index} style={{ marginBottom: '24px' }}>
                       <Col md={3}>
-                        <Image src={item.image} alt={item.name} fluid rounded />
+                        <Image style={{ maxHeight: '200px' }} src={item.image} alt={item.name} fluid rounded />
                       </Col>
                       <Col md={6}>
                         <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
@@ -143,9 +148,9 @@ const CartScreen = ({ match, location, history }) => {
                         <Row>
                           <Col md={12}>
                             <ContainerCounter>
-                              <ButtonCounter onClick={() => handleChangeCounter(-1,item.qty,item.countInStock,item.product)}>-</ButtonCounter>
+                              <ButtonCounter onClick={() => handleChangeCounter(-1, item.qty, item.countInStock, item.product)}>-</ButtonCounter>
                               <NumberProduct >{item.qty}</NumberProduct>
-                              <ButtonCounter onClick={() => handleChangeCounter(1,item.qty,item.countInStock,item.product)}>+</ButtonCounter>
+                              <ButtonCounter onClick={() => handleChangeCounter(1, item.qty, item.countInStock, item.product)}>+</ButtonCounter>
                             </ContainerCounter>
                           </Col>
                           <Col md={12} style={{ marginTop: '1rem' }}>

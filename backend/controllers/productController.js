@@ -1,8 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const Product = require('../model/productModel')
 const Order = require('../model/orderModel')
-const csv = require('csv-parser')
-const fs = require('fs')
 const stringSimilarity = require("string-similarity");
 
 const getProducts = asyncHandler(async (req, res) => {
@@ -127,13 +125,15 @@ const getTrendProducts = asyncHandler(async (req, res) => {
 
 const getProductRecommmend = asyncHandler(async (req, res) => {
   const lastOrder = await (await Order.find({ user: req.user._id })).pop()
+  const productFilter = await Product.find({}).select('_id price rating name')
+
   const products = await Product.find({})
   // neu khach hang lan dau tien vao shop thi se goi y top 8 san pham co rating cao nhat
   if (!lastOrder) {
     const products = await Product.find({}).sort({ rating: -1 }).limit(8)
     return res.json(products)
   } else {
-    let results = []
+  
     const calSimilarity = (textA, textB) => {
       return stringSimilarity.compareTwoStrings(textA, textB)
     }
@@ -143,57 +143,47 @@ const getProductRecommmend = asyncHandler(async (req, res) => {
       let distance = Math.pow(Number(productMain.price - productSample.price), 2) + Math.pow(Number(productMain.rating - productSample.rating), 2) + Math.pow(simi, 2)
       return Math.sqrt(distance).toFixed(2)
     }
+    let resultProduct = []
 
-    fs.createReadStream('data.csv').pipe(csv()).on('data', (row) => results.push(row)).on('end', () => {
-
-      let resultProduct = []
- 
-      const kNearesrNeighbor = (itemMain, k) => {
-        let distances = []
-        results.forEach(item => {
-          const tmpItem = {
-            'id': item.id,
-            'label': item.sport,
-            'distance': calDistance(itemMain, item),
-          }
-          distances.push(tmpItem)
-        })
-        distances.sort((a, b) => a.distance - b.distance)
-        distances = distances.slice(0, k)
-        return distances
+    const kNearesrNeighbor = (itemMain, k) => {
+      let distances = []
+      productFilter.forEach(item => {
+        const tmpItem = {
+          '_id': item._id,
+          'name': item.name,
+          'distance': calDistance(itemMain, item),
+        }
+        distances.push(tmpItem)
+      })
+      distances.sort((a, b) => a.distance - b.distance)
+      distances = distances.slice(0, k)
+      return distances
+    }
+    const getProduct = async () => {
+      for (const element of lastOrder.orderItems) {
+        const product = await Product.findById(element.product)
+        const result = kNearesrNeighbor({
+          price: product.price,
+          rating: product.rating,
+          name: product.name,
+        }, 4)
+        resultProduct = resultProduct.concat(result)
       }
-      const getProduct = async () => {
-        for (const element of lastOrder.orderItems) {
-          const product = await Product.findById(element.product)
-          const result = kNearesrNeighbor({
-            price: product.price,
-            rating: product.rating,
-            name: product.name,
-          },4)
-          resultProduct = resultProduct.concat(result)
+      if (lastOrder.orderItems.length > 1) {
+        resultProduct = resultProduct.slice(0, 8)
+      }
+      resultProduct.sort((a, b) => Number(a.distance) - Number(b.distance))
+      let arrProduct = []
+      const getAllRecommendProduct = async() => {
+        for(const product of resultProduct){
+          const tmpProduct = await Product.findById(product._id)
+          arrProduct.push(tmpProduct)
         }
-        if(lastOrder.orderItems.length > 1){
-          resultProduct = resultProduct.slice(0,8)
-        }
-        resultProduct.sort((a,b) => Number(a.distance) - Number(b.distance))
-        let arrProduct = []
-        resultProduct.forEach(itemDis => {
-          products.forEach((item,index) => {
-            if(Number(itemDis.id) === index){
-              arrProduct.push(item)
-            }
-          })
-        })
         res.json(arrProduct)
       }
-      getProduct()
-
-    
-    })
-
-
-
-
+      getAllRecommendProduct()
+    }
+    getProduct()
   }
 })
 

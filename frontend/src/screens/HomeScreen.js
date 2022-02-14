@@ -57,7 +57,7 @@ const HomeScreen = ({ history, match }) => {
             {loadingTopRecommend ? <Loader /> : errorTopRecommend ? <Message variant='error'>{errorTopRecommend}</Message> : (
               <Row>
                 {!userInfo && productsTopRecommend.map((item, index) => (
-                  <Col className='mb-3' xs={12} sm={6} md={4} lg={3} key={index}>
+                  <Col className='mb-3 p-0' xs={12} sm={6} md={4} lg={3} key={index}>
                     <ProductRecommend product={item} />
                   </Col>
                 ))}
@@ -66,7 +66,7 @@ const HomeScreen = ({ history, match }) => {
             {loadingRecommend ? <Loader /> : errorRecommend ? <Message variant='error'>{errorRecommend}</Message> : (
               <Row>
                 {userInfo && productsRecommend.map((item, index) => (
-                  <Col className='mb-3' xs={12} sm={6} md={4} lg={3} key={index}>
+                  <Col className='mb-3 p-0' xs={12} sm={6} md={4} lg={3} key={index}>
                     <ProductRecommend product={item} />
                   </Col>
                 ))}
@@ -76,7 +76,7 @@ const HomeScreen = ({ history, match }) => {
             {loadingTrend ? <Loader /> : errorTrend ? <Message variant='error'>{errorTrend}</Message> : (
               <Row>
                 {productsTrend.map((item, index) => (
-                  <Col className='mb-3' xs={12} sm={6} md={4} lg={3} key={index}>
+                  <Col className='mb-3 p-0' xs={12} sm={6} md={4} lg={3} key={index}>
                     <Product product={item} />
                   </Col>
                 ))}

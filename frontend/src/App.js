@@ -26,7 +26,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ChartScreen from './screens/Chart/ChartScreen'
 import styled from 'styled-components'
 const ContainerPage = styled.div`
-  padding: 0 1rem;
+  padding: 0 5rem;
 `
 
 function App() {
