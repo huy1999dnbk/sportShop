@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Button, Row } from 'react-bootstrap'
+import { Form, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
 import LoaderAction from '../components/Loader/LoaderAction'
 import FormContainer from '../components/FormContainer'
-import { getUserDetails, getUserDetailsAdmin, logout, updateUser } from '../action/userAction'
-import { USER_DETAIL_RESET, USER_UPDATE_RESET } from '../constants/userConstants'
+import { getUserDetailsAdmin, logout, updateUser } from '../action/userAction'
+import { USER_UPDATE_RESET } from '../constants/userConstants'
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';

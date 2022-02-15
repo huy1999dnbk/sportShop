@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer/Footer'
 import HomeScreen from './screens/HomeScreen'
-import { Container } from 'react-bootstrap'
+
 import ProductScreen from './screens/ProductScreen/ProductScreen'
 import CartScreen from './screens/CartScreen'
 import LoginScreen from './screens/LoginScreen'
@@ -18,29 +18,20 @@ import UserEditScreen from './screens/UserEditScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
-import Chatbot from './components/Chatbot/Chatbot'
-import DashboardAdmin from './screens/DashboardAdmin/DashboardAdmin'
 import AdminRoute from './routes/AdminRoute/AdminRoute'
+import PageNotFound from './screens/NotFound/PageNotFound'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChartScreen from './screens/Chart/ChartScreen'
 import styled from 'styled-components'
 const ContainerPage = styled.div`
   padding: 0 5rem;
+  @media (max-width: 390px) {
+    padding: 0 1rem;
+  }
 `
 
 function App() {
-
-  const [openMess, setOpenMess] = useState(false)
-  
-  const openMessage = () => {
-    setOpenMess(true)
-  }
-
-  const closeMessage = () => {
-    setOpenMess(false)
-  }
-  
   return (
     <Router>
        <ToastContainer
@@ -80,15 +71,11 @@ function App() {
             <Route path='/page/:pageNumber' component={HomeScreen} exact />
             <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact />
             <Route path='/' component={HomeScreen} exact />
+            <Route path='*' component={PageNotFound} />
           </Switch>
         </ContainerPage>
       </main>
-      {openMess && <div className='container-chatbot'>
-        <Chatbot closeMessage={closeMessage} />
-      </div>}
-      <div className='container-chatbot-mini' onClick={openMessage}>
-        <span>Messenger</span>
-      </div>
+    
       <Footer />
 
     </Router>

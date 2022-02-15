@@ -1,11 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { productListReducer, productDetailReducer,productDeleteReducer,productCreateReducer,productUpdateReducer,productReviewCreateReducer,productTopRatedReducer,productTrendReducer,productRecommendReducer,productTopRecommendReducer } from './reducer/productReducer'
+import { productListReducer, productDetailReducer,productDeleteReducer,productCreateReducer,productUpdateReducer,productReviewCreateReducer,productTopRatedReducer,productTrendReducer,productRecommendReducer,productTopRecommendReducer,productMentionReducer } from './reducer/productReducer'
 import { cartReducer } from './reducer/cartReducer'
 import { userLoginReducer,userRegisterReducer,userDetailReducer,userUpdateProfileReducer,userListReducer,userDeleteReducer,userUpdateReducer,userDetailAdminReducer } from './reducer/userReducers'
 import { orderCreateReducer,orderDetailsReducer,orderPayReducer,orderListMyReducer,orderListReducer,orderDeliverReducer,getAllOrdersReducer } from './reducer/orderReducers'
-import { getEventWelcomeReducer, getTextQueryReducer } from './reducer/chatBotReducers'
 const reducer = combineReducers({
   productList: productListReducer,
   productDetail: productDetailReducer,
@@ -17,6 +16,7 @@ const reducer = combineReducers({
   productTrend:productTrendReducer,
   productTopRecommend:productTopRecommendReducer,
   productRecommend:productRecommendReducer,
+  productMention:productMentionReducer,
   cart: cartReducer,
   userLogin:userLoginReducer,
   userRegister:userRegisterReducer,
@@ -33,8 +33,6 @@ const reducer = combineReducers({
   orderList:orderListReducer,
   allOrdersList:getAllOrdersReducer,
   orderDeliver:orderDeliverReducer,
-  getEventWelcome: getEventWelcomeReducer,
-  getTextQuery: getTextQueryReducer
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []

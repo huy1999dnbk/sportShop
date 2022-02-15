@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Col, Row, Image, ListGroup, Card, Button, FormGroup, FormControl, Form } from 'react-bootstrap'
+import { Col, Row, Image, ListGroup, Form } from 'react-bootstrap'
 import Rating from '../../components/Rating'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../components/Loader/Loader'
 import Message from '../../components/Message'
-import { listProductDetail, createProductReview } from '../../action/productAction'
+import { listProductDetail, createProductReview, mentionProduct } from '../../action/productAction'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../../constants/productConstants'
 import Meta from '../../components/Meta'
 import ButtonComponent from '../../components/Button/ButtonComponent'
 import styles from './productscreen.module.css'
-import InputComponent from '../../components/Input/InputComponent'
+
 import styled from 'styled-components'
 const ContainerCounter = styled.div`
   height:60px;
@@ -68,6 +68,7 @@ const ProductScreen = ({ history, match }) => {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
     dispatch(listProductDetail(match.params.id))
+    dispatch(mentionProduct(match.params.id))
     return () => {
       if (history.action === 'POP') {
         window.location.reload()

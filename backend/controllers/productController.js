@@ -123,6 +123,20 @@ const getTrendProducts = asyncHandler(async (req, res) => {
   res.json(products)
 })
 
+const addMentionProduct = asyncHandler(async (req,res) => {
+  const product = await Product.findById(req.params.id)
+  if(product){
+    product.countMention++
+    await product.save()
+    res.json(product)
+  }
+})
+
+const setDefaultMention = asyncHandler(async(req,res) => {
+  await Product.updateMany({countMention:1})
+  res.status(200).json({'message':'success'})
+} )
+
 const getProductRecommmend = asyncHandler(async (req, res) => {
   const lastOrder = await (await Order.find({ user: req.user._id })).pop()
   const productFilter = await Product.find({}).select('_id price rating name')
@@ -196,6 +210,8 @@ module.exports = {
   createProduct,
   createProductReview,
   getTopProducts,
-  getTrendProducts
+  getTrendProducts,
+  addMentionProduct,
+  setDefaultMention
 }
 

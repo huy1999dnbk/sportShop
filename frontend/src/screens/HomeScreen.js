@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, {useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProducts, listRecommendProducts, listTopProducts, listTrendProducts, listTopRecommendProducts } from '../action/productAction'
+import {listRecommendProducts, listTrendProducts, listTopRecommendProducts } from '../action/productAction'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
@@ -78,7 +78,7 @@ const HomeScreen = ({ history, match }) => {
                 ))}
               </Row>
             )}
-            <h4>Trending Product</h4>
+            <h4>Most Viewed Products</h4>
             {loadingTrend ? <Loader /> : errorTrend ? <Message variant='error'>{errorTrend}</Message> : (
               <Row>
                 {productsTrend.map((item, index) => (
