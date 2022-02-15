@@ -90,10 +90,7 @@ const webHookDialogFlow = asyncHandler(async (req, res) => {
         agent.add('I did\'t understand')
         agent.add('I\' am sorry, can you try again!')
     }
-    function Batman(agent) {
-        agent.add('This is batman fulfilment')
-
-    }
+    
     async function buyProducts(agent) {
         if (agent.parameters.products === '') {
             agent.add('Sorry! we do not sell this item')
@@ -120,20 +117,11 @@ const webHookDialogFlow = asyncHandler(async (req, res) => {
         }
     }
 
-    async function getTopProduct(agent) {
-        const products = await Product.find({}).sort({ rating: -1 }).limit(3)
-        const dataPayLoad = {
-            data: products
-        }
-        agent.add(new Payload(agent.UNSPECIFIED, dataPayLoad, { sendAsMessage: true, rawPayload: true }))
-    }
+   
 
     let intentMap = new Map()
-    intentMap.set('Batman', Batman)
     intentMap.set('Default Fallback Intent', fallback)
     intentMap.set('buy product', buyProducts)
-    intentMap.set('Top Product', getTopProduct)
-
     agent.handleRequest(intentMap)
 })
 

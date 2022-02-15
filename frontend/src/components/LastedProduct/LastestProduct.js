@@ -1,16 +1,20 @@
 import React,{useEffect} from 'react';
 import {Row,Col} from 'react-bootstrap'
+import {useHistory} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../../action/productAction';
 import Loader from '../Loader/Loader';
 import Message from '../Message';
 import Product from '../Product/Product';
 const LastestProduct = ({keyword,pageNumber}) => {
+
   const dispatch = useDispatch()
   const listProduct = useSelector(state => state.productList)
   const { loading, error, products } = listProduct
+
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber))
+   
   },[keyword,pageNumber])
   return <>
     {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (<>

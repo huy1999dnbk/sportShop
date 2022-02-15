@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
@@ -40,13 +40,14 @@ const PaginateItem = styled.button`
 `
 
 const Paginate = ({ pages, page, isAdmin = false, keyword = '', productList, isProduct = true, isUsers = false, isOrders = false }) => {
+    const location = useLocation()
     const history = useHistory()
     const [pageCurr, setPageCurr] = useState(1)
-   
+
     const handleArrowButton = (arrow) => {
         if (arrow === -1) {
             setPageCurr(prevState => prevState - 1)
-         
+
             if (!isAdmin) {
                 if (keyword) {
                     history.push(`/search/${keyword}/page/${page - 1}`)
@@ -68,7 +69,7 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '', productList, isP
         }
         if (arrow === 1) {
             setPageCurr(prevState => prevState + 1)
-         
+
             if (!isAdmin) {
                 if (keyword) {
                     history.push(`/search/${keyword}/page/${page + 1}`)
@@ -89,13 +90,20 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '', productList, isP
 
         }
     }
+    
+    
     useEffect(() => {
-        if(!localStorage.getItem('pageNum')) {
+        if (!localStorage.getItem('pageNum')) {
             setPageCurr(1)
         } else {
-            setPageCurr(Number(JSON.parse(localStorage.getItem('pageNum'))))
+            if(location.pathname === '/'){
+                setPageCurr(1)
+            } else {
+                setPageCurr(Number(JSON.parse(localStorage.getItem('pageNum'))))
+            }
         }
-    },[])
+    }, [])
+
     return pages >= 1 && (
         <>
             <PaginationContainer>

@@ -13,7 +13,7 @@ import Loader from '../components/Loader/Loader'
 import ProductRecommend from '../components/Product/ProductRecommend'
 import LastestProduct from '../components/LastedProduct/LastestProduct'
 const HomeScreen = ({ history, match }) => {
-  
+
   const keyword = match.params.keyword
   const pageNumber = match.params.pageNumber || 1
   const dispatch = useDispatch()
@@ -28,10 +28,16 @@ const HomeScreen = ({ history, match }) => {
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
+
+
+
+
   useEffect(() => {
+   
     localStorage.setItem('pageNum', JSON.stringify(pageNumber))
     return () => {
       if (history.action === 'POP') {
+    
         window.location.reload()
       }
       localStorage.removeItem('pageNum')
