@@ -128,3 +128,11 @@ main {
 .dropdown-item.active, .dropdown-item:active{
   background-color: black !important;
 }
+
+.swiper-trending{
+  width: 100% !important;
+}
+
+.swiper-pagination-bullet-active{
+  background-color: black !important;
+}

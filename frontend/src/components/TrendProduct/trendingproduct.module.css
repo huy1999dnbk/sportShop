@@ -1,0 +1,6 @@
+.name-product{
+  @media only screen and (max-width: 390px) {
+    display:none;
+    
+  }
+}

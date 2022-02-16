@@ -11,7 +11,7 @@ import ButtonComponent from '../components/Button/ButtonComponent'
 import styled from 'styled-components'
 import { toast } from 'react-toastify';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
-
+import Meta from '../components/Meta'
 import LoaderAction from '../components/Loader/LoaderAction'
 
 
@@ -44,7 +44,7 @@ const ProfileScreen = ({ location, history }) => {
   const [phoneNumber,setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [message, setMessage] = useState(null)
+
 
   const dispatch = useDispatch()
 
@@ -52,9 +52,6 @@ const ProfileScreen = ({ location, history }) => {
   const { loading, error, user } = userDetail
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
-
-  const userUpdateProfile = useSelector(state => state.userUpdateProfile)
-  const { loading: loadingUpdate, success, user: userUpdated } = userUpdateProfile
 
   const orderListMy = useSelector(state => state.orderListMy)
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
@@ -102,7 +99,7 @@ const ProfileScreen = ({ location, history }) => {
   }
   return (
     <>
-     
+      <Meta title='Profile' />
       <Row style={{ paddingTop: '32px' }}>
         <Col md={12}>
           <Wrapper>
@@ -145,7 +142,6 @@ const ProfileScreen = ({ location, history }) => {
               <Row style={{ justifyContent: 'center', paddingTop: '32px' }}>
                 <ButtonComponent type='submit' variant='primary'>Update</ButtonComponent>
               </Row>
-              {message && <Message variant='error'>{message}</Message>}
               {error && <Message variant='error'>{error}</Message>}
               {loading && <LoaderAction />}
             </Form>

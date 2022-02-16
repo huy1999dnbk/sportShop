@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { Row, Button, Col, ListGroup, Image, Card, ListGroupItem } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Row, Col, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutStep from '../components/CheckoutStep'
 import { createOrder } from '../action/orderAction'
 import { ORDER_CREATE_RESET } from '../constants/orderConstant'
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import styled from 'styled-components'
 import ButtonComponent from '../components/Button/ButtonComponent'
 import LocalShippingRoundedIcon from '@mui/icons-material/LocalShippingRounded';
 import DoubleArrowRoundedIcon from '@mui/icons-material/DoubleArrowRounded';
 import PaymentRoundedIcon from '@mui/icons-material/PaymentRounded';
+import Meta from '../components/Meta'
 const CardOrderSummary = styled.div`
   padding:10px;
   border:1px solid black;
@@ -80,6 +79,7 @@ const PlaceOrderScreen = ({ history }) => {
 
   return (
     <>
+      <Meta title='Place order' />
       <CheckoutStep step1 step2 step3 step4 />
       <Row>
         <Col md={8}>

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Row, Button, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { Row, Col, Image } from 'react-bootstrap'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader/Loader'
 import { getOrderDetails, payOrder, deliverOrder } from '../action/orderAction'
-import { ORDER_PAY_RESET, ORDER_DELIVER_RESET, ORDER_DETAILS_RESET } from '../constants/orderConstant'
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstant'
 import styled from 'styled-components'
 import ButtonComponent from '../components/Button/ButtonComponent'
+import Meta from '../components/Meta'
 const ContainerOrderInfo = styled.div`
   padding:10px;
   border:1px solid #ccc;
@@ -100,6 +101,7 @@ const OrderScreen = ({ match, history }) => {
   }
 
   return loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : <>
+    <Meta title='Order' />
     <Row>
       <Col>
         <h1>Order</h1>
@@ -211,51 +213,6 @@ const OrderScreen = ({ match, history }) => {
             </Row>
           )}
         </CardPriceSummary>
-        {/* <Card>
-          <ListGroup variant='flush'>
-            <ListGroup.Item>
-              <h2>Order Summary</h2>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Row>
-                <Col>Items</Col>
-                <Col>${order.itemsPrice}</Col>
-              </Row>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Row>
-                <Col>Shipping</Col>
-                <Col>${order.shippingPrice}</Col>
-              </Row>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Row>
-                <Col>Tax</Col>
-                <Col>${order.taxPrice}</Col>
-              </Row>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Row>
-                <Col>Total</Col>
-                <Col>${order.totalPrice}</Col>
-              </Row>
-            </ListGroup.Item>
-            {!order.isPaid && (
-              <ListGroup.Item>
-                {loadingPay && <Loader />}
-                {!sdkReady ? <Loader /> : (
-                  <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
-                )}
-              </ListGroup.Item>
-            )}
-            {loadingDeliver && <Loader />}
-            {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-              <ListGroup.Item>
-                <Button type='button' className='btn btn-block' onClick={deliverHandler}>Mark As Delivered</Button>
-              </ListGroup.Item>
-            )}
-          </ListGroup>
-        </Card> */}
       </Col>
     </Row>
   </>

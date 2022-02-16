@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Router } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -57,7 +56,7 @@ const UserListScreen = ({ history, match }) => {
       }
       localStorage.removeItem('pageNum')
     }
-  }, [pageNumber])
+  }, [pageNumber,history.action])
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, ListGroup, Image, Form, Button, Card, FormControl, ButtonToolbar } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../action/cartAction'
 import ButtonComponent from '../components/Button/ButtonComponent'
 import Modal from '../components/Modal/Modal'
 import styled from 'styled-components'
-
+import Meta from '../components/Meta'
 const CardCheckOut = styled.div`
   padding:16px;
   -webkit-box-shadow: 5px 5px 7px 6px rgba(0,0,0,0.22); 
@@ -59,8 +59,7 @@ const CartScreen = ({ match, location, history }) => {
   const [showModal, setShowModal] = useState(false)
   const [productDelete, setProductDelete] = useState('')
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
-  const userLogin = useSelector(state => state.userLogin)
-  const { userInfo } = userLogin
+  
   const cart = useSelector(state => state.cart)
 
   const { cartItems } = cart
@@ -113,6 +112,7 @@ const CartScreen = ({ match, location, history }) => {
 
   return (
     <>
+      <Meta title='Cart' />
       {showModal && <Modal onCancel={closeModal} title='Are you sure' content='Do you want to delete this product?' onConfirm={confirmModal} />}
       <Row style={{ paddingTop: '16px' }}>
         <Col md={8} >

@@ -1,26 +1,25 @@
-import React, {useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import {listRecommendProducts, listTrendProducts, listTopRecommendProducts } from '../action/productAction'
+import { listRecommendProducts, listTopRecommendProducts } from '../action/productAction'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
 
 import { Link } from 'react-router-dom'
-import Product from '../components/Product/Product'
 import Loader from '../components/Loader/Loader'
 import ProductRecommend from '../components/Product/ProductRecommend'
 import LastestProduct from '../components/LastedProduct/LastestProduct'
+import TrendProduct from '../components/TrendProduct/TrendProduct'
 const HomeScreen = ({ history, match }) => {
 
   const keyword = match.params.keyword
   const pageNumber = match.params.pageNumber || 1
   const dispatch = useDispatch()
   const listProduct = useSelector(state => state.productList)
-  const { loading, error, products, pages, page } = listProduct
-  const productTrend = useSelector(state => state.productTrend)
-  const { loading: loadingTrend, products: productsTrend, error: errorTrend } = productTrend
+  const { products, pages, page } = listProduct
+
   const productRecommend = useSelector(state => state.productRecommend)
   const { loading: loadingRecommend, products: productsRecommend, error: errorRecommend } = productRecommend
   const productTopRecommend = useSelector(state => state.productTopRecommend)
@@ -33,11 +32,11 @@ const HomeScreen = ({ history, match }) => {
 
 
   useEffect(() => {
-   
+
     localStorage.setItem('pageNum', JSON.stringify(pageNumber))
     return () => {
       if (history.action === 'POP') {
-    
+
         window.location.reload()
       }
       localStorage.removeItem('pageNum')
@@ -45,7 +44,6 @@ const HomeScreen = ({ history, match }) => {
   }, [pageNumber])
 
   useEffect(() => {
-    dispatch(listTrendProducts())
     if (userInfo) {
       dispatch(listRecommendProducts())
     } else {
@@ -54,9 +52,10 @@ const HomeScreen = ({ history, match }) => {
   }, [dispatch, userInfo])
   return (
     <>
-      <Meta />
+   
       {!keyword ? (
         <>
+           <Meta />
           <ProductCarousel />
           <div>
             <h4>Just for you</h4>
@@ -78,20 +77,16 @@ const HomeScreen = ({ history, match }) => {
                 ))}
               </Row>
             )}
-            <h4>Most Viewed Products</h4>
-            {loadingTrend ? <Loader /> : errorTrend ? <Message variant='error'>{errorTrend}</Message> : (
-              <Row>
-                {productsTrend.map((item, index) => (
-                  <Col className='mb-3 p-0' xs={12} sm={6} md={4} lg={3} key={index}>
-                    <Product product={item} />
-                  </Col>
-                ))}
-              </Row>
-            )}
+            <h4 className='mt-5'>Most Viewed Products</h4>
+         
+              <TrendProduct />
+          
+
           </div>
         </>
       ) : (
         <>
+           <Meta title={`Search for ${keyword}`} />
           <Link to='/' className='btn btn-light'>
             Go Back
           </Link>

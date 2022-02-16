@@ -9,11 +9,7 @@ import { register } from '../action/userAction'
 import styled from 'styled-components'
 import InputComponent from '../components/Input/InputComponent'
 import ButtonComponent from '../components/Button/ButtonComponent'
-const LabelForm = styled.label`
-  display:block;
-  color:black;
-  font-weight:bold
-`
+
 
 const ContainerPage = styled.div`
   -webkit-box-shadow: 3px 5px 15px 5px rgba(0,0,0,0.51); 
@@ -45,7 +41,6 @@ const RegisterScreen = ({ location, history }) => {
   const [passwordError, setPasswordError] = useState(null)
   const [confirmPasswordError, setConfirmPasswordError] = useState(null)
 
-  const [message, setMessage] = useState(null)
   const dispatch = useDispatch()
 
   const userRegister = useSelector(state => state.userRegister)
@@ -125,7 +120,6 @@ const RegisterScreen = ({ location, history }) => {
     <FormContainer>
       <ContainerPage>
         <TitlePage>Sign Up</TitlePage>
-        {message && <Message variant='error'>{message}</Message>}
         {error && <Message variant='error'>{error}</Message>}
         {loading && <LoaderAction />}
         <Form onSubmit={submitHandler}>

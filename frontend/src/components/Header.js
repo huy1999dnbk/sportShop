@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, useLocation } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { Image, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { logout } from '../action/userAction'
 import SearchBox from './SearchBox'
 import styled from 'styled-components'
@@ -20,11 +20,6 @@ const TotalItem = styled.span`
   height:20px;
   text-align:center;
   line-height:16px;
-`
-
-const HeaderContainer = styled.header`
-  -webkit-box-shadow: 0px 19px 21px -7px #000000; 
-  box-shadow: 0px 19px 21px -7px #000000;
 `
 
 const Header = () => {

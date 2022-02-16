@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 
 const Order = require('../model/orderModel') 
-
+const Product = require('../model/productModel')
 const addOrderItems = asyncHandler(async(req,res) => {
   const {
     orderItems,
@@ -29,7 +29,14 @@ const addOrderItems = asyncHandler(async(req,res) => {
       totalPrice
     })
     const createdOrder = await order.save()
-
+    const handleNumberProductRemain = async() => {
+      for(const product of orderItems){
+        const prod = await Product.findById(product.product)
+        prod.countInStock = prod.countInStock - product.qty
+        await prod.save()
+      }
+    } 
+    handleNumberProductRemain()
     res.status(201).json(createdOrder)
   }
 })

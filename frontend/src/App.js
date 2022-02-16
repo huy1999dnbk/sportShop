@@ -20,7 +20,7 @@ import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import AdminRoute from './routes/AdminRoute/AdminRoute'
 import PageNotFound from './screens/NotFound/PageNotFound'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChartScreen from './screens/Chart/ChartScreen'
 import styled from 'styled-components'

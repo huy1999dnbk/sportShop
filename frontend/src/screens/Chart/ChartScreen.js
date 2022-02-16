@@ -10,7 +10,7 @@ import {
   Title, Tooltip, Legend
 } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
-import { listAllOrders, listOrders } from '../../action/orderAction';
+import { listAllOrders } from '../../action/orderAction';
 import styled from 'styled-components'
 import { listTopProducts } from '../../action/productAction';
 const TitleChart = styled.h4`
@@ -45,7 +45,7 @@ const ChartScreen = ({ history }) => {
   const allOrdersList = useSelector(state => state.allOrdersList)
   const { loading, orders, error } = allOrdersList
   const productTopRated = useSelector(state => state.productTopRated)
-  const { loading: loadingTopProduct, error: errorTopProduct, products } = productTopRated
+  const { products } = productTopRated
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 

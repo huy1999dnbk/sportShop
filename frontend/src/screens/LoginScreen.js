@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import Message from '../components/Message'
 import { login } from '../action/userAction'
 
 import FormContainer from '../components/FormContainer'
-import Loader from '../components/Loader/Loader'
 import InputComponent from '../components/Input/InputComponent'
 import styled from 'styled-components'
 import ButtonComponent from '../components/Button/ButtonComponent'
@@ -22,12 +20,6 @@ const ContainerPage = styled.div`
 const TitleLogin = styled.h1`
   text-align:center;
 
-`
-const FormLabel = styled.label`
-  font-weight:bold;
-  font-size:1rem;
-  color:black;
-  display:block
 `
 
 const ErrorMessage = styled.span`
@@ -46,7 +38,7 @@ const LoginScreen = ({ location, history }) => {
   const dispatch = useDispatch()
 
   const userLogin = useSelector(state => state.userLogin)
-  const { loading, error, userInfo } = userLogin
+  const { loading, userInfo } = userLogin
   const redirect = location.search ? location.search.split('=')[1] : '/'
  
   useEffect(() => {

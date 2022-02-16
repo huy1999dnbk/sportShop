@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react'
-
 import { Link } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
 import Loader from './Loader/Loader'
 import Message from './Message'
 import { listTopProducts } from '../action/productAction'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react'
 import 'swiper/swiper.min.css'
 import 'swiper/modules/pagination/pagination.min.css'

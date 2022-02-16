@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import {Row,Col} from 'react-bootstrap'
-import {useHistory} from 'react-router-dom'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../../action/productAction';
 import Loader from '../Loader/Loader';
@@ -15,10 +15,10 @@ const LastestProduct = ({keyword,pageNumber}) => {
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber))
    
-  },[keyword,pageNumber])
+  },[keyword,pageNumber,dispatch])
   return <>
     {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (<>
-      {!keyword && <h4>Latest product</h4>}
+      {!keyword && <h4 className='mt-5'>Latest product</h4>}
       <Row>
         {products.length === 0 && (
           <>

@@ -4,7 +4,7 @@ import { Route,useHistory } from 'react-router-dom'
 import DashboardAdmin from '../../screens/DashboardAdmin/DashboardAdmin'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-
+import Meta from '../../components/Meta'
 const WrappepContainer = styled.div`
   padding:0;
 `
@@ -23,11 +23,12 @@ const AdminRoute = ({ Component, ...restRoute }) => {
     if(!userInfo) {
       history.replace('/')
     }
-  },[userInfo])
+  },[userInfo,history])
 
 
   return <Route {...restRoute} render={(propsRoute => (
     <WrappepContainer>
+      <Meta title='Admin Dashboard'/>
       <Row style={{minHeight:'80vh'}}>
         <Col md={2}>
           <DashboardAdmin />

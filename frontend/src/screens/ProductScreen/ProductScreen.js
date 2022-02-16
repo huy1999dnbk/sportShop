@@ -59,7 +59,7 @@ const ProductScreen = ({ history, match }) => {
   const { userInfo } = userLogin
 
   const productReviewCreate = useSelector(state => state.productReviewCreate)
-  const { success: successProductReview, error: errorProductReview, loading: loadingReview } = productReviewCreate
+  const { success: successProductReview, loading: loadingReview } = productReviewCreate
 
   useEffect(() => {
     if (successProductReview) {

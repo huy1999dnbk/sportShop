@@ -1,5 +1,4 @@
 import React from 'react'
-import { Spinner } from 'react-bootstrap'
 import styles from './loader.module.css'
 const Loader = () => {
   return (
