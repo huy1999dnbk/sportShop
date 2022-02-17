@@ -18,7 +18,7 @@ const LastestProduct = ({keyword,pageNumber}) => {
   },[keyword,pageNumber,dispatch])
   return <>
     {loading ? <Loader /> : error ? <Message variant='error'>{error}</Message> : (<>
-      {!keyword && <h4 className='mt-5'>Latest product</h4>}
+      {!keyword && <h4 className='mt-5'>All Product</h4>}
       <Row>
         {products.length === 0 && (
           <>

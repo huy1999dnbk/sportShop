@@ -17,8 +17,7 @@ const Container = styled.div`
 `
 const Content = styled.p`
   color:black;
-  font-size:16px;
-  font-weight:bold
+  font-size:18px;
 `
 const ImagePro = styled.img`
   display:block;

@@ -58,7 +58,7 @@ const HomeScreen = ({ history, match }) => {
            <Meta />
           <ProductCarousel />
           <div>
-            <h4>Just for you</h4>
+            <h4>Just For You</h4>
             {loadingTopRecommend ? <Loader /> : errorTopRecommend ? <Message variant='error'>{errorTopRecommend}</Message> : (
               <Row>
                 {!userInfo && productsTopRecommend.map((item, index) => (
