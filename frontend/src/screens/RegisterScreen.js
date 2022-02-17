@@ -98,7 +98,7 @@ const RegisterScreen = ({ location, history }) => {
       setPhoneError(null)
     }
 
-    if (password === '' || password < 6) {
+    if (password === '' || password.length < 6) {
       setPasswordError('Password is invalid, password must atleast 6 characters')
       return
     } else {
