@@ -2224,6 +2224,18 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stripe/react-stripe-js@^1.7.0":
+  "integrity" "sha512-L20v8Jq0TDZFL2+y+uXD751t6q9SalSFkSYZpmZ2VWrGZGK7HAGfRQ804dzYSSr5fGenW6iz6y7U0YKfC/TK3g=="
+  "resolved" "https://registry.npmjs.org/@stripe/react-stripe-js/-/react-stripe-js-1.7.0.tgz"
+  "version" "1.7.0"
+  dependencies:
+    "prop-types" "^15.7.2"
+
+"@stripe/stripe-js@^1.20.3", "@stripe/stripe-js@^1.23.0":
+  "integrity" "sha512-+7w4rVs71Fk8/8uzyzQB5GotHSH9mjOjxM3EYDq/3MR3I2ewELHtvWVMOqfS/9WSKCaKv7h7eFLsMZGpK5jApQ=="
+  "resolved" "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-1.23.0.tgz"
+  "version" "1.23.0"
+
 "@surma/rollup-plugin-off-main-thread@^1.1.1":
   "integrity" "sha512-yBMPqmd1yEJo/280PAMkychuaALyQ9Lkb5q1ck3mjJrFuEobIfhnQ4J3mbvBoISmR3SWMWV+cGB/I0lCQee79A=="
   "resolved" "https://registry.npmjs.org/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-1.4.2.tgz"
@@ -10469,7 +10481,7 @@
   "resolved" "https://registry.npmjs.org/react-display-name/-/react-display-name-0.2.5.tgz"
   "version" "0.2.5"
 
-"react-dom@*", "react-dom@^0.14.6 || 15.x.x || 16.x.x || 17.x.x", "react-dom@^17.0.2", "react-dom@>= 16.8.0", "react-dom@>=16", "react-dom@>=16.14.0", "react-dom@>=16.6.0":
+"react-dom@*", "react-dom@^0.14.6 || 15.x.x || 16.x.x || 17.x.x", "react-dom@^16.8.0 || ^17.0.0", "react-dom@^17.0.2", "react-dom@>= 16.8.0", "react-dom@>=16", "react-dom@>=16.14.0", "react-dom@>=16.6.0":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"
@@ -10685,6 +10697,11 @@
   "integrity" "sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ=="
   "resolved" "https://registry.npmjs.org/react-side-effect/-/react-side-effect-2.1.1.tgz"
   "version" "2.1.1"
+
+"react-stripe-checkout@^2.6.3":
+  "integrity" "sha1-MXOocLBOWjwyGgbSTNU8YDARHEU="
+  "resolved" "https://registry.npmjs.org/react-stripe-checkout/-/react-stripe-checkout-2.6.3.tgz"
+  "version" "2.6.3"
 
 "react-toastify@^8.1.0":
   "integrity" "sha512-M+Q3rTmEw/53Csr7NsV/YnldJe4c7uERcY7Tma9mvLU98QT2VhIkKwjBzzxZkJRk/oBKyUAtkyMjMgO00hx6gQ=="

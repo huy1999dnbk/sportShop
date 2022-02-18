@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import { Row, Col, Image } from 'react-bootstrap'
-import { PayPalButton } from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -11,6 +10,8 @@ import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstant
 import styled from 'styled-components'
 import ButtonComponent from '../components/Button/ButtonComponent'
 import Meta from '../components/Meta'
+import StripeCheckout from 'react-stripe-checkout';
+
 const ContainerOrderInfo = styled.div`
   padding:10px;
   border:1px solid #ccc;
@@ -35,8 +36,8 @@ const CardPriceTitle = styled.h3`
   font-weight:bold;
 `
 const OrderScreen = ({ match, history }) => {
+
   const orderId = match.params.id
-  const [sdkReady, setSdkReady] = useState(false)
   const dispatch = useDispatch()
 
   const orderDetails = useSelector(state => state.orderDetails)
@@ -62,39 +63,37 @@ const OrderScreen = ({ match, history }) => {
     )
   }
 
+  const makePayment = async (token) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    const data = await axios.post('/payment', {
+      token,
+      totalPrice: order.totalPrice
+    }, config)
+    dispatch(payOrder(orderId,{
+      id:data.data.id,
+      status:data.data.paid,
+      email_address:data.data.billing_details.name,
+      currency:data.data.currency
+    }))
+  }
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login')
     }
-    const addPayPalScript = async () => {
-      const { data: clientId } = await axios.get('/api/config/paypal')
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-      script.async = true
-      script.onload = () => {
-        setSdkReady(true)
-      }
-      document.body.appendChild(script)
-    }
+
     if (!order || successPay || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_DELIVER_RESET })
       dispatch(getOrderDetails(orderId))
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPayPalScript()
-      } else {
-        setSdkReady(true)
-      }
-    }
+    } 
 
   }, [dispatch, orderId, successPay, successDeliver, order, userInfo])
 
-  const successPaymentHandler = (paymentResult) => {
-
-    dispatch(payOrder(orderId, paymentResult))
-  }
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order))
@@ -197,10 +196,12 @@ const OrderScreen = ({ match, history }) => {
           {!order.isPaid && (
             <Row>
               <Col>
-              {loadingPay && <Loader />}
-              {!sdkReady ? <Loader /> : (
-                <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
-              )}
+                {
+                  <StripeCheckout stripeKey='pk_test_51KU0KNHzr2aPULLHERi1fWVBHp2Oxy1BTeBG0gfJ6O9DeRwuiGN1csKbpJMMPLvZjHTv5bo2qKguE8RQZnpCekjD00KDxRcNhm' token={makePayment} name='Checkout SportShop' amount={order.totalPrice} image="https://stripe.com/img/documentation/checkout/marketplace.png">
+                    <ButtonComponent style={{minWidth:'100%'}}>Pay ${order.totalPrice}</ButtonComponent>
+                  </StripeCheckout>
+                }
+                {loadingPay && <Loader />}
               </Col>
             </Row>
           )}
@@ -208,7 +209,7 @@ const OrderScreen = ({ match, history }) => {
           {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
             <Row>
               <Col>
-              <ButtonComponent type='button' className='btn btn-block' onClick={deliverHandler}>Mark As Delivered</ButtonComponent>
+                <ButtonComponent type='button' className='btn btn-block' onClick={deliverHandler}>Mark As Delivered</ButtonComponent>
               </Col>
             </Row>
           )}

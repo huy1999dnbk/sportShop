@@ -6,10 +6,12 @@ Link Deploy Project:  https://sportaccessoryapp.herokuapp.com/
 This ecommerce project include some basic feature such as:
 - Shopping cart
 - Comment review product
-- payment with paypal (sandbox with fake money, yellow-button paypal in this project,after using this account to login, click button PAY NOW)
-  + using this account to pay:
-   . username:sb-1n2hh13858843@personal.example.com
-   . password: vRL%fW3Y
+- payment with stripe ( fake money, in orderscreen you will see black button Pay + price order)
+  + using this information to pay:
+   . email:your email
+   . card number: 4242 4242 4242 4242
+   . MM/YY: date of the present (month and year)
+   . CVC: random 3 digit number(e.g 123,456)
 - admin dashboard
   +using this account to login to admin page
     .username:admin@gmail.com
