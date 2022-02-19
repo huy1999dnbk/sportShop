@@ -7,13 +7,13 @@ import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
 
-import { Link } from 'react-router-dom'
+import { Link,useLocation } from 'react-router-dom'
 import Loader from '../components/Loader/Loader'
 import ProductRecommend from '../components/Product/ProductRecommend'
 import LastestProduct from '../components/LastedProduct/LastestProduct'
 import TrendProduct from '../components/TrendProduct/TrendProduct'
 const HomeScreen = ({ history, match }) => {
-
+  const location = useLocation()
   const keyword = match.params.keyword
   const pageNumber = match.params.pageNumber || 1
   const dispatch = useDispatch()
@@ -32,11 +32,9 @@ const HomeScreen = ({ history, match }) => {
 
 
   useEffect(() => {
-
     localStorage.setItem('pageNum', JSON.stringify(pageNumber))
     return () => {
       if (history.action === 'POP') {
-
         window.location.reload()
       }
       localStorage.removeItem('pageNum')

@@ -1,5 +1,5 @@
 # sportShop
-This project using react, nodejs, mongodb.
+This project using react, nodejs, mongodb,firebase.
 
 Link Deploy Project:  https://sportaccessoryapp.herokuapp.com/
 
@@ -13,7 +13,7 @@ This ecommerce project include some basic feature such as:
    . MM/YY: date of the present (month and year)
    . CVC: random 3 digit number(e.g 123,456)
 - admin dashboard
-  +using this account to login to admin page
+  +using this account to login to admin page (you will see button link to dashboard on the header)
     .username:admin@gmail.com
     .password: 123456
 -Basic recommend product based on last order(just for you), this recommend only work when you create an order!!!!(I am using content base filtering to find similar product base on price rating and similarity description by using levenshtein method)

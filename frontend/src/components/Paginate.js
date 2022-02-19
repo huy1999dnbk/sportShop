@@ -90,19 +90,19 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '', productList, isP
 
         }
     }
-    
-    
+
+
     useEffect(() => {
         if (!localStorage.getItem('pageNum')) {
             setPageCurr(1)
         } else {
-            if(location.pathname === '/'){
+             if (location.pathname === '/') {
                 setPageCurr(1)
             } else {
                 setPageCurr(Number(JSON.parse(localStorage.getItem('pageNum'))))
             }
         }
-    }, [])
+    }, [keyword])
 
     return pages >= 1 && (
         <>
