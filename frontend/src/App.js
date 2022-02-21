@@ -27,7 +27,7 @@ import styled from 'styled-components'
 
 
 const ContainerPage = styled.div`
-  padding: 0 12%;
+  padding: 0 10%;
   @media (max-width: 390px) {
     padding: 0 1rem !important;
   }

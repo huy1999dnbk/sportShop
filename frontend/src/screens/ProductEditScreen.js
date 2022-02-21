@@ -160,7 +160,7 @@ const ProductEditScreen = ({ match, history }) => {
                         </Form.Group>
                         <Form.Group className='mt-3' controlId='description'>
 
-                            <InputComponent className='w-100' label='description' type='text' placeholder='Enter description' value={description} onChange={e => setDescription(e.target.value)}>
+                            <InputComponent className='w-100' label='description' type='text' placeholder='Enter description' value={description} onChange={e => setDescription(e.target.value)} multiline={true}>
 
                             </InputComponent>
                         </Form.Group>
